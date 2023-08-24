@@ -3,12 +3,7 @@
 Currently, this project computes reachable positions for the SoC optimization
 given a MAPF problem.
 
-## Examples
-
-```
-$ python examples/example.py                   
-edge(0,1) edge(1,2) edge(2,3) edge(2,4) start(a,0) start(b,2) goal(a,3) goal(b,4) shortest_path(a,3) shortest_path(b,1) reach(a,1,1) reach(a,1,2) reach(a,3,3) reach(a,3,4) reach(a,2,2) reach(a,2,3) reach(a,0,0) reach(a,0,1) reach(b,4,1) reach(b,4,2) reach(b,2,0) reach(b,2,1)
-```
+See the examples folder for a simple application using the utilities.
 
 ## Installation
 
