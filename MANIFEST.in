@@ -1,0 +1,14 @@
+include setup.py
+include pyproject.toml
+include CMakeLists.txt
+include LICENSE.md
+include README.md
+recursive-include app *
+recursive-include cmake *
+recursive-include libcmapf *
+include libpycmapf/*.c
+include libpycmapf/CMakeLists.txt
+recursive-include libpycmapf/cmapf *.py *.typed
+include third_party/CMakeLists.txt
+prune _skbuild
+global-exclude *.py[cod]
