@@ -21,10 +21,19 @@ python setup.py build install
 If clingo has been installed, the package can be compiled and installed using:
 
 ```
-make
-make intall
+cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_INSTALL_PREFIX=<prefix> -S . -B <build>
+cmake --build <build>
+cmake --install <build>
 ```
 
-We recommend to install with conda as it provides the necessary clingo packages
-and tools. Furthermore, the package will be installed in a separate environment
-without interfering with the system.
+The `<build>` placeholder should be set to an arbitrary (empty) directory. We
+recommend to install with [conda] as it provides the necessary clingo packages
+and tools. In this case, the `<prefix>` placeholder can be set to
+`$CONDA_PREFIX` to install into the active environment. This way, the package
+does not interfere with the system. Please consult the [cmake] documentation
+for further information.
+
+**The bundled Makefile is only intended for development.**
+
+[conda]: https://conda-forge.org/
+[cmake]: https://cmake.org/documentation/
