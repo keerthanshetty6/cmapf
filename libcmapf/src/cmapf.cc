@@ -100,7 +100,7 @@ struct Graph {
         }
     }
     void compute_reach(Clingo::Backend &bck, int delta) {
-        // there are no reachable positions if the goal is not reachable
+        // do not compute reachable positions if one agent cannot reach its goal
         for (auto *a : agents_) {
             if (a->sp.type() != Clingo::SymbolType::Number) {
                 return;
@@ -123,7 +123,6 @@ struct Graph {
                 }
             }
             // compute forward reachable nodes (via shortest path)
-            // TODO: stop early if cost above horizon
             {
                 std::set<Node*, CostNodeCmp> todo;
                 a->start->cost = 0;
@@ -131,7 +130,12 @@ struct Graph {
                 while (!todo.empty()) {
                     auto *cur = *todo.begin();
                     todo.erase(todo.begin());
+                    // we cannot continue from this node anymore
+                    if (cur->cost >= horizon) {
+                        continue;
+                    }
                     for (auto &out : cur->out) {
+                        // enter the node with the next larger cost if it is not blocked already
                         if (cur->cost + 1 < out->cost && cur->cost + 1 < out->block) {
                             todo.erase(out);
                             out->prev = cur;
@@ -142,18 +146,24 @@ struct Graph {
                 }
             }
             // compute backward reachable nodes on transpose
-            // TODO: stop early if max_cost drops below cost
             {
                 std::set<Node*, MaxCostNodeCmp> todo_max;
+                // the goal has to be reached on the horizon
                 a->goal->max_cost = horizon;
                 todo_max.emplace(a->goal);
                 while (!todo_max.empty()) {
                     auto *cur = *todo_max.begin();
                     todo_max.erase(todo_max.begin());
+                    // we cannot reach the start node anymore
+                    if (cur->cost > cur->max_cost) {
+                        continue;
+                    }
                     for (auto &in : cur->in) {
+                        // incoming nodes are reached one time step earlier
                         int c = 1;
+                        // except if they are blocked earlier
                         if (cur->max_cost + 1 > in->block) {
-                            // [not reachable at block anymore] in --> cur [reachable at cur->max_cost]
+                            // in [is not reachable at block anymore] --> cur [is reachable at cur->max_cost]
                             // this means that we want to set
                             //   in->max_cost = in->block - 1
                             c = cur->max_cost - in->block + 1;
