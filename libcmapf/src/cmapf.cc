@@ -90,10 +90,28 @@ struct MAPF {
         n_u->out.emplace_back(n_v);
         n_v->in.emplace_back(n_u);
     }
+
+    //! Initialize the problem from the given control object.
+    void init(Clingo::Control &ctl) {
+        auto syms = ctl.symbolic_atoms();
+        for (auto it = syms.begin(Clingo::Signature{"start", 2}), ie = syms.end(); it != ie; ++it) {
+            auto args = it->symbol().arguments();
+            add_start(args.front(), args.back());
+        }
+        for (auto it = syms.begin(Clingo::Signature{"goal", 2}), ie = syms.end(); it != ie; ++it) {
+            auto args = it->symbol().arguments();
+            add_goal(args.front(), args.back());
+        }
+        for (auto it = syms.begin(Clingo::Signature{"edge", 2}), ie = syms.end(); it != ie; ++it) {
+            auto args = it->symbol().arguments();
+            add_edge(args.front(), args.back());
+        }
+    }
+
     //! Compute the length of the shortest paths between start and goal nodes
     //! of agents.
     //!
-    //! A corresponding atom shortest_path(A,L) is added to the given backend
+    //! A corresponding atom sp_length(A,L) is added to the given backend
     //! indicating that agent A can reach its goal within L time steps.
     //! Furthermore, the shortest path is stored for later use along with the
     //! agents.
@@ -121,7 +139,7 @@ struct MAPF {
             if (a->goal->cost != std::numeric_limits<int>::max()) {
                 a->sp_len = Clingo::Number(static_cast<int>(a->goal->cost));
             }
-            auto atm = bck.add_atom(Clingo::Function("shortest_path", {a->name, a->sp_len}));
+            auto atm = bck.add_atom(Clingo::Function("sp_length", {a->name, a->sp_len}));
             bck.rule(false, {atm}, {});
         }
     }
@@ -240,23 +258,23 @@ extern "C" void cmapf_version(int *major, int *minor, int *patch) {
     }
 }
 
+extern "C" bool cmapf_compute_sp_length(clingo_control_t *c_ctl) {
+    CMAPF_TRY {
+        auto ctl = Clingo::Control{c_ctl, false};
+        MAPF prob;
+        prob.init(ctl);
+        ctl.with_backend([&prob](Clingo::Backend &bck) {
+            prob.compute_sp(bck);
+        });
+    }
+    CMAPF_CATCH;
+}
+
 extern "C" bool cmapf_compute_reachable(clingo_control_t *c_ctl, int delta) {
     CMAPF_TRY {
         auto ctl = Clingo::Control{c_ctl, false};
         MAPF prob;
-        auto syms = ctl.symbolic_atoms();
-        for (auto it = syms.begin(Clingo::Signature{"start", 2}), ie = syms.end(); it != ie; ++it) {
-            auto args = it->symbol().arguments();
-            prob.add_start(args.front(), args.back());
-        }
-        for (auto it = syms.begin(Clingo::Signature{"goal", 2}), ie = syms.end(); it != ie; ++it) {
-            auto args = it->symbol().arguments();
-            prob.add_goal(args.front(), args.back());
-        }
-        for (auto it = syms.begin(Clingo::Signature{"edge", 2}), ie = syms.end(); it != ie; ++it) {
-            auto args = it->symbol().arguments();
-            prob.add_edge(args.front(), args.back());
-        }
+        prob.init(ctl);
         ctl.with_backend([&prob, delta](Clingo::Backend &bck) {
             prob.compute_sp(bck);
             prob.compute_reach(bck, delta);
