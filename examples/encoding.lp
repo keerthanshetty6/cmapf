@@ -25,7 +25,7 @@ time(A,1..N) :- horizon(A,N).
 time(1..N) :- horizon(N).
 
 % guess moves
-{ move(A,U,V,T) : edge(U,V), reach(A,V,T)} 1 :- reach(A,U,T-1).
+{ move(A,U,V,T) : edge(U,V), reach(A,V,T) } 1 :- reach(A,U,T-1).
 
 % derive locations of agents based on start positions and moves
 at(A,U,0) :- start(A,U).
@@ -51,7 +51,7 @@ at(A,U,T) :- at(A,U,T-1), not move(A,U,_,T), time(A,T).
  :- goal(A,U), horizon(A,T), not at(A,U,T).
 
 % compute penalties
-penalty(A,N) :- sp_length(A,N+1), N >= 0.                                                                                                                                                    
+penalty(A,N) :- sp_length(A,N+1), N >= 0.
 penalty(A,T) :- sp_length(A,N), at(A,U,T), not goal(A,U), T >= N.
 penalty(A,T) :- penalty(A,T+1), T >= 0.
 
