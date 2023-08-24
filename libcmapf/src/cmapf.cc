@@ -17,10 +17,10 @@ struct MAPF {
     //! A node in the graph.
     struct Node {
         //! Construct a node with the given name.
-        Node(Clingo::Symbol sym) : sym{sym} { }
+        Node(Clingo::Symbol name) : name{name} { }
 
         //! The name of the node.
-        Clingo::Symbol sym;
+        Clingo::Symbol name;
         //! The outgoing edges of the node.
         std::vector<Node*> out;
         //! The incoming edges of the node.
@@ -36,28 +36,28 @@ struct MAPF {
     };
     //! Sort nodes in ascending order according to their cost.
     struct CostNodeCmp {
-        bool operator()(Node *a, Node *b) const {
-            return a->cost < b->cost;
+        bool operator()(Node *u, Node *v) const {
+            return u->cost < v->cost;
         }
     };
     //! Sort nodes in descending order according to their maximum cost.
     struct MaxCostNodeCmp {
-        bool operator()(Node *a, Node *b) const {
-            return a->max_cost > b->max_cost;
+        bool operator()(Node *u, Node *v) const {
+            return u->max_cost > v->max_cost;
         }
     };
     //! An agent in a MAPF problem.
     struct Agent {
-        Agent(Clingo::Symbol sym) : sym{sym} { }
+        Agent(Clingo::Symbol name) : name{name} { }
         void check() const {
             if (start == nullptr || goal == nullptr) {
                 throw std::runtime_error("agent with invalid start and goal");
             }
         }
-        Clingo::Symbol sym;
+        Clingo::Symbol name;
         Node *start = nullptr;
         Node *goal = nullptr;
-        Clingo::Symbol sp = Clingo::Supremum();
+        Clingo::Symbol sp_len = Clingo::Supremum();
     };
     //! Add a node with the given name to the MAPF problem.
     //!
@@ -119,9 +119,9 @@ struct MAPF {
                 }
             }
             if (a->goal->cost != std::numeric_limits<int>::max()) {
-                a->sp = Clingo::Number(static_cast<int>(a->goal->cost));
+                a->sp_len = Clingo::Number(static_cast<int>(a->goal->cost));
             }
-            auto atm = bck.add_atom(Clingo::Function("shortest_path", {a->sym, a->sp}));
+            auto atm = bck.add_atom(Clingo::Function("shortest_path", {a->name, a->sp_len}));
             bck.rule(false, {atm}, {});
         }
     }
@@ -134,12 +134,12 @@ struct MAPF {
     void compute_reach(Clingo::Backend &bck, int delta) {
         // do not compute reachable positions if one agent cannot reach its goal
         for (auto *a : agents_) {
-            if (a->sp.type() != Clingo::SymbolType::Number) {
+            if (a->sp_len.type() != Clingo::SymbolType::Number) {
                 return;
             }
         }
         for (auto *a : agents_) {
-            auto horizon = a->sp.number() + delta;
+            auto horizon = a->sp_len.number() + delta;
             for (auto &[name, node] : nodes) {
                 node.cost = std::numeric_limits<int>::max();
                 node.max_cost = std::numeric_limits<int>::min();
@@ -147,7 +147,7 @@ struct MAPF {
             // compute blocked
             for (auto *b : agents_) {
                 if (a != b) {
-                    b->goal->block = b->sp.number() + delta;
+                    b->goal->block = b->sp_len.number() + delta;
                 }
                 else {
                     b->goal->block = std::numeric_limits<int>::max();
@@ -177,13 +177,13 @@ struct MAPF {
             }
             // compute backward reachable nodes on transpose
             {
-                std::set<Node*, MaxCostNodeCmp> todo_max;
+                std::set<Node*, MaxCostNodeCmp> todo;
                 // the goal has to be reached on the horizon
                 a->goal->max_cost = horizon;
-                todo_max.emplace(a->goal);
-                while (!todo_max.empty()) {
-                    auto *cur = *todo_max.begin();
-                    todo_max.erase(todo_max.begin());
+                todo.emplace(a->goal);
+                while (!todo.empty()) {
+                    auto *cur = *todo.begin();
+                    todo.erase(todo.begin());
                     // we cannot reach the start node anymore
                     if (cur->cost > cur->max_cost) {
                         continue;
@@ -199,9 +199,9 @@ struct MAPF {
                             c = cur->max_cost - in->block + 1;
                         }
                         if (cur->max_cost - c > in->max_cost) {
-                            todo_max.erase(in);
+                            todo.erase(in);
                             in->max_cost = cur->max_cost - c;
-                            todo_max.emplace(in);
+                            todo.emplace(in);
                         }
                     }
                 }
@@ -209,7 +209,7 @@ struct MAPF {
             // add possible locations
             for (auto &[name, node] : nodes) {
                 for (int t = node.cost; t <= node.max_cost; ++t) {
-                    auto atm = bck.add_atom(Clingo::Function("reach", {a->sym, node.sym, Clingo::Number(t)}));
+                    auto atm = bck.add_atom(Clingo::Function("reach", {a->name, node.name, Clingo::Number(t)}));
                     bck.rule(false, {atm}, {});
                 }
             }
@@ -243,23 +243,23 @@ extern "C" void cmapf_version(int *major, int *minor, int *patch) {
 extern "C" bool cmapf_compute_reachable(clingo_control_t *c_ctl, int delta) {
     CMAPF_TRY {
         auto ctl = Clingo::Control{c_ctl, false};
-        MAPF g;
+        MAPF prob;
         auto syms = ctl.symbolic_atoms();
         for (auto it = syms.begin(Clingo::Signature{"start", 2}), ie = syms.end(); it != ie; ++it) {
             auto args = it->symbol().arguments();
-            g.add_start(args.front(), args.back());
+            prob.add_start(args.front(), args.back());
         }
         for (auto it = syms.begin(Clingo::Signature{"goal", 2}), ie = syms.end(); it != ie; ++it) {
             auto args = it->symbol().arguments();
-            g.add_goal(args.front(), args.back());
+            prob.add_goal(args.front(), args.back());
         }
         for (auto it = syms.begin(Clingo::Signature{"edge", 2}), ie = syms.end(); it != ie; ++it) {
             auto args = it->symbol().arguments();
-            g.add_edge(args.front(), args.back());
+            prob.add_edge(args.front(), args.back());
         }
-        ctl.with_backend([&g, delta](Clingo::Backend &bck) {
-            g.compute_sp(bck);
-            g.compute_reach(bck, delta);
+        ctl.with_backend([&prob, delta](Clingo::Backend &bck) {
+            prob.compute_sp(bck);
+            prob.compute_reach(bck, delta);
         });
     }
     CMAPF_CATCH;
