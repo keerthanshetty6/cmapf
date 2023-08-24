@@ -41,10 +41,23 @@ extern "C" {
 
 #include <clingo.h>
 
-//! Return the version of the theory.
+//! Obtain the version of the library.
 CMAPF_VISIBILITY_DEFAULT void cmapf_version(int *major, int *minor, int *patch);
 
-//! Compute reachable locations.
+//! Compute an approximation of reachable nodes assuming limited moves of the
+//! agents.
+//!
+//! An agent can only move for the first n time points, where n is the
+//! length of its shortest path from start to goal plus the given delta.
+//!
+//! The function assumes that the control object already holds a MAPF problem
+//! in standard form.
+//!
+//! Atoms over the predicates reach/3 and shortest_path/2 are added to the
+//! control object. Atoms reach(A,U,T) indicate that an agent A can reach a
+//! node U at time point T. Atom shortest_path(A,L) indicate that agent A can
+//! reach its goal within L time steps from its start ignoring any collisions
+//! with other agents.
 CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_reachable(clingo_control_t *c_ctl, int delta);
 
 #ifdef __cplusplus
