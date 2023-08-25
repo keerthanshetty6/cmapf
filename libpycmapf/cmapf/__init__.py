@@ -20,12 +20,32 @@ def version():
     return p_major[0], p_minor[0], p_revision[0]
 
 
+def compute_min_delta(ctl: Control):
+    """
+    Compute the minimal delta value for which the mapf problem is not trivially unsatisfiable.
+
+    Returns None if the problem is unsatisfiable.
+    """
+    res = _ffi.new("bool*")
+    delta = _ffi.new("int*")
+    _handle_error(
+        _lib.cmapf_compute_min_delta(
+            _ffi.cast("clingo_control_t*", ctl._rep), res, delta
+        )
+    )
+    if res[0]:
+        return delta[0]
+    return None
+
+
 def add_sp_length(ctl: Control):
     """
     Add shortest paths.
     """
     res = _ffi.new("bool*")
-    _handle_error(_lib.cmapf_compute_sp_length(_ffi.cast("clingo_control_t*", ctl._rep), res))
+    _handle_error(
+        _lib.cmapf_compute_sp_length(_ffi.cast("clingo_control_t*", ctl._rep), res)
+    )
     return res[0]
 
 
@@ -34,7 +54,11 @@ def add_reachable(ctl: Control, delta: int):
     Add reachable locations based on shortest paths.
     """
     res = _ffi.new("bool*")
-    _handle_error(_lib.cmapf_compute_reachable(_ffi.cast("clingo_control_t*", ctl._rep), delta, res))
+    _handle_error(
+        _lib.cmapf_compute_reachable(
+            _ffi.cast("clingo_control_t*", ctl._rep), delta, res
+        )
+    )
     return res[0]
 
 

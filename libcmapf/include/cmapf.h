@@ -44,6 +44,12 @@ extern "C" {
 //! Obtain the version of the library.
 CMAPF_VISIBILITY_DEFAULT void cmapf_version(int *major, int *minor, int *patch);
 
+//! Compute the minimal delta for which the MAPF problem in the control object
+//! is not trivially unsatisfiable.
+//!
+//! If the MAPF problem is detected to be unsatisfiable sets res to false.
+CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_min_delta(clingo_control_t *c_ctl, bool *res, int *delta);
+
 //! Compute the shortest path length from start to goal for each agent.
 //!
 //! The function terminates early and sets the result to false if there is no

@@ -13,7 +13,8 @@
 namespace {
 
 //! MAPF class for capturing MAPF problems.
-struct MAPF {
+class MAPF {
+public:
     //! A node in the graph.
     struct Node {
         //! Construct a node with the given name.
@@ -55,11 +56,6 @@ struct MAPF {
     //! An agent in a MAPF problem.
     struct Agent {
         Agent(Clingo::Symbol name) : name{name} { }
-        void check() const {
-            if (start == nullptr || goal == nullptr) {
-                throw std::runtime_error("agent with invalid start and goal");
-            }
-        }
         Clingo::Symbol name;
         Node *start = nullptr;
         Node *goal = nullptr;
@@ -69,7 +65,7 @@ struct MAPF {
     //!
     //! Returns the same node for the same name.
     Node *add_node(Clingo::Symbol u) {
-        return &nodes.try_emplace(u, u).first->second;
+        return &nodes_.try_emplace(u, u).first->second;
     }
     //! Add an agent with the given name to the MAPF problem.
     //!
@@ -123,34 +119,38 @@ struct MAPF {
     //! agents.
     bool compute_sp(Clingo::Backend &bck) {
         for (auto *a : agents_) {
-            a->check();
-            for (auto &[name, node] : nodes) {
-                node.cost = std::numeric_limits<int>::max();
-            }
-            // a poor man's heap (clingo-dl has a proper one)
-            std::set<Node*, CostNodeCmp> todo;
-            a->start->cost = 0;
-            todo.emplace(a->start);
-            while (!todo.empty()) {
-                auto *cur = *todo.begin();
-                todo.erase(todo.begin());
-                for (auto &out : cur->out) {
-                    if (cur->cost + 1 < out->cost) {
-                        todo.erase(out);
-                        out->cost = cur->cost + 1;
-                        todo.emplace(out);
-                    }
-                }
-            }
-            if (a->goal->cost == std::numeric_limits<int>::max()) {
+            if (!compute_sp_(a)) {
                 return false;
             }
-            a->sp_len = Clingo::Number(static_cast<int>(a->goal->cost));
             auto atm = bck.add_atom(Clingo::Function("sp_length", {a->name, a->sp_len}));
             bck.rule(false, {atm}, {});
         }
         return true;
     }
+
+    //! Compute a minmal delta for which the problem is not trivially
+    //! unsatisfiable.
+    std::optional<int> compute_min_delta() {
+        for (auto *a : agents_) {
+            if (!compute_sp_(a)) {
+                return std::nullopt;
+            }
+        }
+
+        for (int delta = 0;; ++delta) {
+            bool stop = true;
+            for (auto *a : agents_) {
+                if (!compute_forward_reach_(a, delta)) {
+                    stop = false;
+                    break;
+                }
+            }
+            if (stop) {
+                return delta;
+            }
+        }
+    }
+
     //! Compute reachable nodes assuming limited moves of the agents.
     //!
     //! An agent can only move for the first n time points, where n is the
@@ -158,86 +158,16 @@ struct MAPF {
     //! Atoms reach(A,U,T) will be added indicating that an agent A can reach a
     //! node U at time point T.
     bool compute_reach(Clingo::Backend &bck, int delta) {
-        // do not compute reachable positions if one agent cannot reach its goal
-        for (auto *a : agents_) {
-            if (a->sp_len.type() != Clingo::SymbolType::Number) {
-                return false;
-            }
+        if (!compute_sp(bck)) {
+            return false;
         }
         for (auto *a : agents_) {
-            auto horizon = a->sp_len.number() + delta;
-            for (auto &[name, node] : nodes) {
-                node.cost = std::numeric_limits<int>::max();
-                node.max_cost = std::numeric_limits<int>::min();
+            if (!compute_forward_reach_(a, delta)) {
+                return false;
             }
-            // compute blocked
-            for (auto *b : agents_) {
-                if (a != b) {
-                    b->goal->block = b->sp_len.number() + delta;
-                }
-                else {
-                    b->goal->block = std::numeric_limits<int>::max();
-                }
-            }
-            // compute forward reachable nodes (via shortest path)
-            {
-                std::set<Node*, CostNodeCmp> todo;
-                a->start->cost = 0;
-                todo.emplace(a->start);
-                while (!todo.empty()) {
-                    auto *cur = *todo.begin();
-                    todo.erase(todo.begin());
-                    // we cannot continue from this node anymore
-                    if (cur->cost >= horizon) {
-                        continue;
-                    }
-                    for (auto &out : cur->out) {
-                        // enter the node with the next larger cost if it is not blocked already
-                        if (cur->cost + 1 < out->cost && cur->cost + 1 < out->block) {
-                            todo.erase(out);
-                            out->cost = cur->cost + 1;
-                            todo.emplace(out);
-                        }
-                    }
-                }
-                // we could not reach the goal node
-                if (a->goal->cost == std::numeric_limits<int>::max()) {
-                    return false;
-                }
-            }
-            // compute backward reachable nodes on transpose
-            {
-                std::set<Node*, MaxCostNodeCmp> todo;
-                // the goal has to be reached on the horizon
-                a->goal->max_cost = horizon;
-                todo.emplace(a->goal);
-                while (!todo.empty()) {
-                    auto *cur = *todo.begin();
-                    todo.erase(todo.begin());
-                    // we cannot reach the start node anymore
-                    if (cur->cost > cur->max_cost) {
-                        continue;
-                    }
-                    for (auto &in : cur->in) {
-                        // incoming nodes are reached one time step earlier
-                        int c = 1;
-                        // except if they are blocked earlier
-                        if (cur->max_cost + 1 > in->block) {
-                            // in [is not reachable at block anymore] --> cur [is reachable at cur->max_cost]
-                            // this means that we want to set
-                            //   in->max_cost = in->block - 1
-                            c = cur->max_cost - in->block + 1;
-                        }
-                        if (cur->max_cost - c > in->max_cost) {
-                            todo.erase(in);
-                            in->max_cost = cur->max_cost - c;
-                            todo.emplace(in);
-                        }
-                    }
-                }
-            }
+            compute_backward_reach_(a, delta);
             // add possible locations
-            for (auto &[name, node] : nodes) {
+            for (auto &[name, node] : nodes_) {
                 for (int t = node.cost; t <= node.max_cost; ++t) {
                     auto atm = bck.add_atom(Clingo::Function("reach", {a->name, node.name, Clingo::Number(t)}));
                     bck.rule(false, {atm}, {});
@@ -246,9 +176,124 @@ struct MAPF {
         }
         return true;
     }
+private:
+    //! Compute the shortest path for a single agent.
+    bool compute_sp_(Agent *a) {
+        // ensure that the instance is sane enough to start computation
+        if (a->start == nullptr || a->goal == nullptr) {
+            return false;
+        }
+        for (auto &[name, node] : nodes_) {
+            node.cost = std::numeric_limits<int>::max();
+        }
+        // a poor man's heap (clingo-dl has a proper one)
+        std::set<Node*, CostNodeCmp> todo;
+        a->start->cost = 0;
+        todo.emplace(a->start);
+        while (!todo.empty()) {
+            auto *cur = *todo.begin();
+            todo.erase(todo.begin());
+            for (auto &out : cur->out) {
+                if (cur->cost + 1 < out->cost) {
+                    todo.erase(out);
+                    out->cost = cur->cost + 1;
+                    todo.emplace(out);
+                }
+            }
+        }
+        if (a->goal->cost == std::numeric_limits<int>::max()) {
+            return false;
+        }
+        a->sp_len = Clingo::Number(static_cast<int>(a->goal->cost));
+        return true;
+    }
+
+    //! Compute nodes reachable from the start postion of the agent.
+    //!
+    //! Returns false if the agent's goal cannot be reached and assumes that
+    //! shortest paths have already been computed.
+    bool compute_forward_reach_(Agent *a, int delta) {
+        auto horizon = a->sp_len.number() + delta;
+        // reset costs
+        for (auto &[name, node] : nodes_) {
+            node.cost = std::numeric_limits<int>::max();
+            node.max_cost = std::numeric_limits<int>::min();
+        }
+        // compute blocked
+        for (auto *b : agents_) {
+            if (a != b) {
+                b->goal->block = b->sp_len.number() + delta;
+            }
+            else {
+                b->goal->block = std::numeric_limits<int>::max();
+            }
+        }
+        // compute forward reachable nodes (via shortest path)
+        {
+            std::set<Node*, CostNodeCmp> todo;
+            a->start->cost = 0;
+            todo.emplace(a->start);
+            while (!todo.empty()) {
+                auto *cur = *todo.begin();
+                todo.erase(todo.begin());
+                // we cannot continue from this node anymore
+                if (cur->cost >= horizon) {
+                    continue;
+                }
+                for (auto &out : cur->out) {
+                    // enter the node with the next larger cost if it is not blocked already
+                    if (cur->cost + 1 < out->cost && cur->cost + 1 < out->block) {
+                        todo.erase(out);
+                        out->cost = cur->cost + 1;
+                        todo.emplace(out);
+                    }
+                }
+            }
+            // we could not reach the goal node
+            if (a->goal->cost == std::numeric_limits<int>::max()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //! Compute nodes reachable from the goal.
+    //!
+    //! This assumes a preceding call to compute_forward_reach_ for the same agent.
+    void compute_backward_reach_(Agent *a, int delta) { // NOLINT(readability-convert-member-functions-to-static)
+        auto horizon = a->sp_len.number() + delta;
+        std::set<Node*, MaxCostNodeCmp> todo;
+        // the goal has to be reached on the horizon
+        a->goal->max_cost = horizon;
+        todo.emplace(a->goal);
+        while (!todo.empty()) {
+            auto *cur = *todo.begin();
+            todo.erase(todo.begin());
+            // we cannot reach the start node anymore
+            if (cur->cost > cur->max_cost) {
+                continue;
+            }
+            for (auto &in : cur->in) {
+                // incoming nodes are reached one time step earlier
+                int c = 1;
+                // except if they are blocked earlier
+                if (cur->max_cost + 1 > in->block) {
+                    // in [is not reachable at block anymore] --> cur [is reachable at cur->max_cost]
+                    // this means that we want to set
+                    //   in->max_cost = in->block - 1
+                    c = cur->max_cost - in->block + 1;
+                }
+                if (cur->max_cost - c > in->max_cost) {
+                    todo.erase(in);
+                    in->max_cost = cur->max_cost - c;
+                    todo.emplace(in);
+                }
+            }
+        }
+    }
 
     //! Mapping from node names to actual nodes.
-    std::unordered_map<Clingo::Symbol, Node> nodes;
+    std::unordered_map<Clingo::Symbol, Node> nodes_;
     //! Mapping from agent names to actual agents.
     std::unordered_map<Clingo::Symbol, Agent> agent_map_;
     //! The list of agents in the MAPF problem in insertion order.
@@ -271,6 +316,24 @@ extern "C" void cmapf_version(int *major, int *minor, int *patch) {
     }
 }
 
+extern "C" bool cmapf_compute_min_delta(clingo_control_t *c_ctl, bool *res, int *delta) {
+    CMAPF_TRY {
+        auto ctl = Clingo::Control{c_ctl, false};
+        MAPF prob;
+        prob.init(ctl);
+        auto ret = prob.compute_min_delta();
+        if (ret.has_value()) {
+            *res = true;
+            *delta = ret.value();
+        }
+        else {
+            *res = false;
+            *delta = 0;
+        }
+    }
+    CMAPF_CATCH;
+}
+
 extern "C" bool cmapf_compute_sp_length(clingo_control_t *c_ctl, bool *res) {
     CMAPF_TRY {
         auto ctl = Clingo::Control{c_ctl, false};
@@ -289,8 +352,7 @@ extern "C" bool cmapf_compute_reachable(clingo_control_t *c_ctl, int delta, bool
         MAPF prob;
         prob.init(ctl);
         ctl.with_backend([&prob, delta, res](Clingo::Backend &bck) {
-            *res = prob.compute_sp(bck);
-            *res = *res && prob.compute_reach(bck, delta);
+            *res = prob.compute_reach(bck, delta);
         });
     }
     CMAPF_CATCH;
