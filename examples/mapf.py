@@ -112,12 +112,12 @@ class MAPFApp(Application):
             self._stats["Reachable"] = cmapf.count_atoms(ctl.symbolic_atoms, "reach", 3)
 
             # compute the minimum cost as the sum of the shortest path lengths
+            min_cost = 0
             for atom in ctl.symbolic_atoms.by_signature("sp_length", 2):
                 agent, length = atom.symbol.arguments
                 self._sp[agent] = length
-            self._stats["Min Cost"] = 0
-            for _, cost in self._sp.items():
-                self._stats["Min Cost"] += cost.number
+                min_cost += length.number
+            self._stats["Min Cost"] = min_cost
         else:
             # make the problem unsatisfiable avoiding grounding
             with ctl.backend() as bck:
