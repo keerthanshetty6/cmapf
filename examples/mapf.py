@@ -63,7 +63,12 @@ class MAPFApp(Application):
         for literal, agent in self._penalties:
             if model.is_true(literal):
                 costs[agent] += 1
-        model.extend([Function("cost", [agent, self._sp[agent], Number(cost)]) for agent, cost in costs.items()])
+        model.extend(
+            [
+                Function("cost", [agent, self._sp[agent], Number(cost)])
+                for agent, cost in costs.items()
+            ]
+        )
 
     def main(self, ctl: Control, files):
         # load files
