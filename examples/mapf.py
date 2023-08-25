@@ -20,6 +20,9 @@ class MAPFApp(Application):
         self._costs = Flag(True)
         # the statistics dictionary
         self._stats = {"Time": {}}
+        # cached shortest paths/penalties
+        self._sp = None
+        self._penalties = None
 
     def _parse_delta(self, value: str):
         if value == "auto":
@@ -47,17 +50,28 @@ class MAPFApp(Application):
         )
 
     def _on_model(self, model: Model):
+        # precompute list of shortest paths
+        if self._sp is None:
+            atoms = model.context.symbolic_atoms
+            self._sp = defaultdict(lambda: 0)
+            for atom in atoms.by_signature("sp_length", 2):
+                agent, length = atom.symbol.arguments
+                self._sp[agent] = length
+
+        # precompute list of penalties
+        if self._penalties is None:
+            atoms = model.context.symbolic_atoms
+            self._penalties = []
+            for atom in atoms.by_signature("penalty", 2):
+                agent, _ = atom.symbol.arguments
+                self._penalties.append((atom.literal, agent))
+
         # add per agent costs to model
-        sp = {}
         costs = defaultdict(lambda: 0)
-        for atom in model.symbols(atoms=True):
-            if atom.match("sp_length", 2):
-                agent, length = atom.arguments
-                sp[agent] = length
-            if atom.match("penalty", 2):
-                agent, _ = atom.arguments
+        for literal, agent in self._penalties:
+            if model.is_true(literal):
                 costs[agent] += 1
-        model.extend([Function("cost", [agent, sp[agent], Number(cost)]) for agent, cost in costs.items()])
+        model.extend([Function("cost", [agent, self._sp[agent], Number(cost)]) for agent, cost in costs.items()])
 
     def main(self, ctl: Control, files):
         # load files
