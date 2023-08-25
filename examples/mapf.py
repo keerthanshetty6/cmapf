@@ -21,7 +21,7 @@ class MAPFApp(Application):
         # the statistics dictionary
         self._stats = {"Time": {}}
         # cached shortest paths/penalties
-        self._sp = None
+        self._sp = defaultdict(lambda: 0)
         self._penalties = None
 
     def _parse_delta(self, value: str):
@@ -50,14 +50,6 @@ class MAPFApp(Application):
         )
 
     def _on_model(self, model: Model):
-        # precompute list of shortest paths
-        if self._sp is None:
-            atoms = model.context.symbolic_atoms
-            self._sp = defaultdict(lambda: 0)
-            for atom in atoms.by_signature("sp_length", 2):
-                agent, length = atom.symbol.arguments
-                self._sp[agent] = length
-
         # precompute list of penalties
         if self._penalties is None:
             atoms = model.context.symbolic_atoms
@@ -126,6 +118,14 @@ class MAPFApp(Application):
 
         if delta is not None:
             self._stats["Delta"] = delta
+
+        # compute the minimum cost as the sum of the shortest path lengths
+        for atom in ctl.symbolic_atoms.by_signature("sp_length", 2):
+            agent, length = atom.symbol.arguments
+            self._sp[agent] = length
+        self._stats["Min Cost"] = 0
+        for _, cost in self._sp.items():
+            self._stats["Min Cost"] += cost.number
 
         # solve the MAPF problem
         kwargs = {"on_statistics": self._on_statistics}
