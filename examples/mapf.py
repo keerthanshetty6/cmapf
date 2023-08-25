@@ -14,12 +14,12 @@ class MAPFApp(Application):
         # the delta value to use
         # (None means a minimal value is computed)
         self._delta = None
-        # if set to true, count the number of reachable positions
+        # whether to compute reachable positions with cmapf
         self._reach = Flag(True)
         # whether to compute per agent costs
         self._costs = Flag(True)
         # whether to add number of reachable positions to statistics
-        # (Python is slow so we can avoid even this loop)
+        # (Python is slow, so we can avoid even this loop)
         self._show_reach = Flag(True)
         # the statistics dictionary
         self._stats = {"Time": {}}
