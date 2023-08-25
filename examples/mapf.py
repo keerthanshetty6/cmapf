@@ -110,6 +110,14 @@ class MAPFApp(Application):
             # ground the encoding
             ctl.ground(parts)
             self._stats["Reachable"] = cmapf.count_atoms(ctl.symbolic_atoms, "reach", 3)
+
+            # compute the minimum cost as the sum of the shortest path lengths
+            for atom in ctl.symbolic_atoms.by_signature("sp_length", 2):
+                agent, length = atom.symbol.arguments
+                self._sp[agent] = length
+            self._stats["Min Cost"] = 0
+            for _, cost in self._sp.items():
+                self._stats["Min Cost"] += cost.number
         else:
             # make the problem unsatisfiable avoiding grounding
             with ctl.backend() as bck:
@@ -118,14 +126,6 @@ class MAPFApp(Application):
 
         if delta is not None:
             self._stats["Delta"] = delta
-
-        # compute the minimum cost as the sum of the shortest path lengths
-        for atom in ctl.symbolic_atoms.by_signature("sp_length", 2):
-            agent, length = atom.symbol.arguments
-            self._sp[agent] = length
-        self._stats["Min Cost"] = 0
-        for _, cost in self._sp.items():
-            self._stats["Min Cost"] += cost.number
 
         # solve the MAPF problem
         kwargs = {"on_statistics": self._on_statistics}
