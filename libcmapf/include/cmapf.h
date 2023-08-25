@@ -46,13 +46,19 @@ CMAPF_VISIBILITY_DEFAULT void cmapf_version(int *major, int *minor, int *patch);
 
 //! Compute the shortest path length from start to goal for each agent.
 //!
+//! The function terminates early and sets the result to false if there is no
+//! shortest path for some agent.
+//!
 //! Atoms over predicate sp_length/2 are added to the problem. Atom
 //! sp_length(A,L) indicates that agent A can reach its goal within L time
 //! steps from its start ignoring any collisions with other agents.
-CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_sp_length(clingo_control_t *c_ctl);
+CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_sp_length(clingo_control_t *c_ctl, bool *res);
 
 //! Compute an approximation of reachable nodes assuming limited moves of the
 //! agents.
+//!
+//! The function terminates early and sets the result to false if there is an
+//! agent that cannot reach its goal.
 //!
 //! An agent can only move for the first n time points, where n is the
 //! length of its shortest path from start to goal plus the given delta.
@@ -64,7 +70,7 @@ CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_sp_length(clingo_control_t *c_ctl);
 //! object. Atoms reach(A,U,T) indicate that an agent A can reach a node U at
 //! time point T. Atoms over predicate sp_length correspond to what is added
 //! with cmapf_compute_reachable().
-CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_reachable(clingo_control_t *c_ctl, int delta);
+CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_reachable(clingo_control_t *c_ctl, int delta, bool *res);
 
 #ifdef __cplusplus
 }

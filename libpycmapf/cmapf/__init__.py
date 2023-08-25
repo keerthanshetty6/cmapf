@@ -23,14 +23,18 @@ def add_sp_length(ctl: Control):
     """
     Add shortest paths.
     """
-    _lib.cmapf_compute_sp_length(_ffi.cast("clingo_control_t*", ctl._rep))
+    res = _ffi.new("bool*")
+    _lib.cmapf_compute_sp_length(_ffi.cast("clingo_control_t*", ctl._rep), res)
+    return res[0]
 
 
 def add_reachable(ctl: Control, delta: int):
     """
     Add reachable locations based on shortest paths.
     """
-    _lib.cmapf_compute_reachable(_ffi.cast("clingo_control_t*", ctl._rep), delta)
+    res = _ffi.new("bool*")
+    _lib.cmapf_compute_reachable(_ffi.cast("clingo_control_t*", ctl._rep), delta, res)
+    return res[0]
 
 
 __version__ = ".".join(str(num) for num in version())

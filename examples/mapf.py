@@ -34,11 +34,18 @@ class MAPFApp(Application):
         ctl.ground()
         parts = [("mapf", [Number(self._delta)])]
         if self._reach:
-            cmapf.add_reachable(ctl, self._delta)
+            res = cmapf.add_reachable(ctl, self._delta)
         else:
-            cmapf.add_sp_length(ctl)
+            res = cmapf.add_sp_length(ctl)
             parts.append(("reach", []))
-        ctl.ground(parts)
+
+        if res:
+            ctl.ground(parts)
+        else:
+            # make it unsatisfiable
+            with ctl.backend() as bck:
+                bck.add_rule([])
+
         ctl.solve()
 
 

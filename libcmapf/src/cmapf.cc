@@ -37,13 +37,19 @@ struct MAPF {
     //! Sort nodes in ascending order according to their cost.
     struct CostNodeCmp {
         bool operator()(Node *u, Node *v) const {
-            return u->cost < v->cost;
+            if (u->cost != v->cost) {
+                return u->cost < v->cost;
+            }
+            return u->name < v->name;
         }
     };
     //! Sort nodes in descending order according to their maximum cost.
     struct MaxCostNodeCmp {
         bool operator()(Node *u, Node *v) const {
-            return u->max_cost > v->max_cost;
+            if (u->max_cost != v->max_cost) {
+                return u->max_cost > v->max_cost;
+            }
+            return u->name < v->name;
         }
     };
     //! An agent in a MAPF problem.
@@ -115,7 +121,7 @@ struct MAPF {
     //! indicating that agent A can reach its goal within L time steps.
     //! Furthermore, the shortest path is stored for later use along with the
     //! agents.
-    void compute_sp(Clingo::Backend &bck) {
+    bool compute_sp(Clingo::Backend &bck) {
         for (auto *a : agents_) {
             a->check();
             for (auto &[name, node] : nodes) {
@@ -136,12 +142,14 @@ struct MAPF {
                     }
                 }
             }
-            if (a->goal->cost != std::numeric_limits<int>::max()) {
-                a->sp_len = Clingo::Number(static_cast<int>(a->goal->cost));
+            if (a->goal->cost == std::numeric_limits<int>::max()) {
+                return false;
             }
+            a->sp_len = Clingo::Number(static_cast<int>(a->goal->cost));
             auto atm = bck.add_atom(Clingo::Function("sp_length", {a->name, a->sp_len}));
             bck.rule(false, {atm}, {});
         }
+        return true;
     }
     //! Compute reachable nodes assuming limited moves of the agents.
     //!
@@ -149,11 +157,11 @@ struct MAPF {
     //! length of its shortest path from start to goal plus the given delta.
     //! Atoms reach(A,U,T) will be added indicating that an agent A can reach a
     //! node U at time point T.
-    void compute_reach(Clingo::Backend &bck, int delta) {
+    bool compute_reach(Clingo::Backend &bck, int delta) {
         // do not compute reachable positions if one agent cannot reach its goal
         for (auto *a : agents_) {
             if (a->sp_len.type() != Clingo::SymbolType::Number) {
-                return;
+                return false;
             }
         }
         for (auto *a : agents_) {
@@ -191,6 +199,10 @@ struct MAPF {
                             todo.emplace(out);
                         }
                     }
+                }
+                // we could not reach the goal node
+                if (a->goal->cost == std::numeric_limits<int>::max()) {
+                    return false;
                 }
             }
             // compute backward reachable nodes on transpose
@@ -232,6 +244,7 @@ struct MAPF {
                 }
             }
         }
+        return true;
     }
 
     //! Mapping from node names to actual nodes.
@@ -258,26 +271,26 @@ extern "C" void cmapf_version(int *major, int *minor, int *patch) {
     }
 }
 
-extern "C" bool cmapf_compute_sp_length(clingo_control_t *c_ctl) {
+extern "C" bool cmapf_compute_sp_length(clingo_control_t *c_ctl, bool *res) {
     CMAPF_TRY {
         auto ctl = Clingo::Control{c_ctl, false};
         MAPF prob;
         prob.init(ctl);
-        ctl.with_backend([&prob](Clingo::Backend &bck) {
-            prob.compute_sp(bck);
+        ctl.with_backend([&prob, res](Clingo::Backend &bck) {
+            *res = prob.compute_sp(bck);
         });
     }
     CMAPF_CATCH;
 }
 
-extern "C" bool cmapf_compute_reachable(clingo_control_t *c_ctl, int delta) {
+extern "C" bool cmapf_compute_reachable(clingo_control_t *c_ctl, int delta, bool *res) {
     CMAPF_TRY {
         auto ctl = Clingo::Control{c_ctl, false};
         MAPF prob;
         prob.init(ctl);
-        ctl.with_backend([&prob, delta](Clingo::Backend &bck) {
-            prob.compute_sp(bck);
-            prob.compute_reach(bck, delta);
+        ctl.with_backend([&prob, delta, res](Clingo::Backend &bck) {
+            *res = prob.compute_sp(bck);
+            *res = *res && prob.compute_reach(bck, delta);
         });
     }
     CMAPF_CATCH;
