@@ -363,3 +363,11 @@ extern "C" bool cmapf_compute_reachable(clingo_control_t *c_ctl, int delta, bool
     }
     CMAPF_CATCH;
 }
+
+extern "C" bool cmapf_count_atoms(clingo_symbolic_atoms_t *c_syms, char const *name, int arity, int *res) {
+    CMAPF_TRY {
+        auto syms = Clingo::SymbolicAtoms{c_syms};
+        *res = static_cast<int>(std::distance(syms.begin(Clingo::Signature{name, static_cast<uint32_t>(arity)}), syms.end()));
+    }
+    CMAPF_CATCH;
+}

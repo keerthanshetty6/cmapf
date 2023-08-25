@@ -109,9 +109,7 @@ class MAPFApp(Application):
         if res:
             # ground the encoding
             ctl.ground(parts)
-            if self._show_reach:
-                reach = ctl.symbolic_atoms.by_signature("reach", 3)
-                self._stats["Reachable"] = sum(1 for _ in reach)
+            self._stats["Reachable"] = cmapf.count_atoms(ctl.symbolic_atoms, "reach", 3)
         else:
             # make the problem unsatisfiable avoiding grounding
             with ctl.backend() as bck:

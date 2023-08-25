@@ -3,6 +3,7 @@ MAPF utilities for clingo written in C++.
 """
 
 from clingo.control import Control
+from clingo.symbolic_atoms import SymbolicAtoms
 from clingo._internal import _handle_error
 from ._cmapf import lib as _lib, ffi as _ffi
 
@@ -57,6 +58,19 @@ def add_reachable(ctl: Control, delta: int):
     _handle_error(
         _lib.cmapf_compute_reachable(
             _ffi.cast("clingo_control_t*", ctl._rep), delta, res
+        )
+    )
+    return res[0]
+
+
+def count_atoms(syms: SymbolicAtoms, name: str, arity: int):
+    """
+    Count the number of atoms over the given signature.
+    """
+    res = _ffi.new("int*")
+    _handle_error(
+        _lib.cmapf_count_atoms(
+            _ffi.cast("clingo_symbolic_atoms_t*", syms._rep), name.encode(), arity, res
         )
     )
     return res[0]

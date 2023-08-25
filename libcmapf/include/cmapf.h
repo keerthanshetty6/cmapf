@@ -78,6 +78,9 @@ CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_sp_length(clingo_control_t *c_ctl, b
 //! with cmapf_compute_reachable().
 CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_reachable(clingo_control_t *c_ctl, int delta, bool *res);
 
+//! Helper to count the atoms over the given signature.
+CMAPF_VISIBILITY_DEFAULT bool cmapf_count_atoms(clingo_symbolic_atoms_t *c_syms, char const *name, int arity, int *res);
+
 #ifdef __cplusplus
 }
 #endif

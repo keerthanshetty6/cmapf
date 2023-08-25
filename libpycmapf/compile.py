@@ -15,6 +15,7 @@ code = '\n'.join(cnt)
 # TODO: have to add relevant clingo forwards
 ffibuilder.cdef(f'''\
 typedef struct clingo_control clingo_control_t;
+typedef struct clingo_symbolic_atoms clingo_symbolic_atoms_t;
 {code}
 ''')
 
