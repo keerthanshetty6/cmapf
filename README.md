@@ -9,16 +9,20 @@ See the examples folder for a simple application using the utilities.
 
 ### For pypi packages
 
-If our official pypi packages are used, install with:
+To use our official pypi packages, install with:
 
 ```
-pip install clingo cffi scikit-build
-python setup.py build install
+python -m venv venv
+source venv/bin/activate
+pip install .
 ```
+
+Make sure that a recent enough C++ compiler is available on the system.
 
 ### Generic install
 
-If clingo has been installed, the package can be compiled and installed using:
+If clingo has been installed system wide, the package can be compiled and
+installed using:
 
 ```
 cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_INSTALL_PREFIX=<prefix> -S . -B <build>
