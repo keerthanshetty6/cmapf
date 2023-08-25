@@ -71,6 +71,8 @@ class MAPFApp(Application):
         start = timeit.default_timer()
         if res:
             ctl.ground(parts)
+            reach = ctl.symbolic_atoms.by_signature("reach", 3)
+            self._stats["Reachable"] = sum(1 for _ in reach)
         else:
             # make it unsatisfiable
             with ctl.backend() as bck:
