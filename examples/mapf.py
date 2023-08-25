@@ -18,9 +18,6 @@ class MAPFApp(Application):
         self._reach = Flag(True)
         # whether to compute per agent costs
         self._costs = Flag(True)
-        # whether to add number of reachable positions to statistics
-        # (Python is slow, so we can avoid even this loop)
-        self._show_reach = Flag(True)
         # the statistics dictionary
         self._stats = {"Time": {}}
 
@@ -47,9 +44,6 @@ class MAPFApp(Application):
         )
         options.add_flag(
             "MAPF", "show-costs", "add per agents costs to model [True]", self._costs
-        )
-        options.add_flag(
-            "MAPF", "show-reach", "add number of reachable nodes to statistics [True]", self._show_reach
         )
 
     def _on_model(self, model: Model):
