@@ -65,7 +65,11 @@ public:
     //!
     //! Returns the same node for the same name.
     Node *add_node(Clingo::Symbol u) {
-        return &nodes_.try_emplace(u, u).first->second;
+        auto ins = node_map_.try_emplace(u, u);
+        if (ins.second) {
+            nodes_.emplace_back(&ins.first->second);
+        }
+        return &ins.first->second;
     }
     //! Add an agent with the given name to the MAPF problem.
     //!
@@ -167,9 +171,9 @@ public:
             }
             compute_backward_reach_(a, delta);
             // add possible locations
-            for (auto &[name, node] : nodes_) {
-                for (int t = node.cost; t <= node.max_cost; ++t) {
-                    auto atm = bck.add_atom(Clingo::Function("reach", {a->name, node.name, Clingo::Number(t)}));
+            for (auto *node : nodes_) {
+                for (int t = node->cost; t <= node->max_cost; ++t) {
+                    auto atm = bck.add_atom(Clingo::Function("reach", {a->name, node->name, Clingo::Number(t)}));
                     bck.rule(false, {atm}, {});
                 }
             }
@@ -183,8 +187,8 @@ private:
         if (a->start == nullptr || a->goal == nullptr) {
             return false;
         }
-        for (auto &[name, node] : nodes_) {
-            node.cost = std::numeric_limits<int>::max();
+        for (auto *node : nodes_) {
+            node->cost = std::numeric_limits<int>::max();
         }
         // a poor man's heap (clingo-dl has a proper one)
         std::set<Node*, CostNodeCmp> todo;
@@ -215,9 +219,9 @@ private:
     bool compute_forward_reach_(Agent *a, int delta) {
         auto horizon = a->sp_len.number() + delta;
         // reset costs
-        for (auto &[name, node] : nodes_) {
-            node.cost = std::numeric_limits<int>::max();
-            node.max_cost = std::numeric_limits<int>::min();
+        for (auto *node : nodes_) {
+            node->cost = std::numeric_limits<int>::max();
+            node->max_cost = std::numeric_limits<int>::min();
         }
         // compute blocked
         for (auto *b : agents_) {
@@ -293,10 +297,12 @@ private:
     }
 
     //! Mapping from node names to actual nodes.
-    std::unordered_map<Clingo::Symbol, Node> nodes_;
+    std::unordered_map<Clingo::Symbol, Node> node_map_;
+    //! The list of nodes in insertion order.
+    std::vector<Node*> nodes_;
     //! Mapping from agent names to actual agents.
     std::unordered_map<Clingo::Symbol, Agent> agent_map_;
-    //! The list of agents in the MAPF problem in insertion order.
+    //! The list of agents in insertion order.
     std::vector<Agent*> agents_;
 };
 

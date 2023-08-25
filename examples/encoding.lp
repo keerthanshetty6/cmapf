@@ -59,8 +59,8 @@ penalty(A,T) :- penalty(A,T+1), T >= 0.
 #minimize { 1,A,T: penalty(A,T) }.
 
 #show.
-#show compare(A,N,M) : sp_length(A,N), M = #max { 0; T+1: penalty(A,T) }.
 #show move/4.
 
 % this is due to a glitch in clingo
 #defined move/4.
+#defined reach/3.
