@@ -3,6 +3,7 @@ MAPF utilities for clingo written in C++.
 """
 
 from clingo.control import Control
+from clingo._internal import _handle_error
 from ._cmapf import lib as _lib, ffi as _ffi
 
 __all__ = ["version", "add_sp_length", "add_reachable"]
@@ -24,7 +25,7 @@ def add_sp_length(ctl: Control):
     Add shortest paths.
     """
     res = _ffi.new("bool*")
-    _lib.cmapf_compute_sp_length(_ffi.cast("clingo_control_t*", ctl._rep), res)
+    _handle_error(_lib.cmapf_compute_sp_length(_ffi.cast("clingo_control_t*", ctl._rep), res))
     return res[0]
 
 
@@ -33,7 +34,7 @@ def add_reachable(ctl: Control, delta: int):
     Add reachable locations based on shortest paths.
     """
     res = _ffi.new("bool*")
-    _lib.cmapf_compute_reachable(_ffi.cast("clingo_control_t*", ctl._rep), delta, res)
+    _handle_error(_lib.cmapf_compute_reachable(_ffi.cast("clingo_control_t*", ctl._rep), delta, res))
     return res[0]
 
 
