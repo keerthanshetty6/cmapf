@@ -64,6 +64,7 @@ class MAPF {
         Node *start = nullptr;
         Node *goal = nullptr;
         Clingo::Symbol sp_len = Clingo::Supremum();
+        Clingo::Symbol sp_backup_len = Clingo::Supremum();
     };
     //! Add a node with the given name to the MAPF problem.
     //!
@@ -122,6 +123,9 @@ class MAPF {
     //! Furthermore, the shortest path is stored for later use along with the
     //! agents.
     auto compute_sp(Clingo::Backend &bck) -> bool {
+        if (sp_unsat_) {
+            return false;
+        }
         for (auto *a : agents_) {
             if (!compute_sp_(a)) {
                 return false;
@@ -135,6 +139,9 @@ class MAPF {
     //! Compute a minmal delta for which the problem is not trivially
     //! unsatisfiable.
     auto compute_min_delta() -> std::optional<int> {
+        if (sp_unsat_) {
+            return std::nullopt;
+        }
         for (auto *a : agents_) {
             if (!compute_sp_(a)) {
                 return std::nullopt;
@@ -158,6 +165,9 @@ class MAPF {
     //! Compute a minmal delta for which the problem is not trivially
     //! unsatisfiable.
     auto compute_min_horizon() -> std::optional<int> {
+        if (sp_unsat_) {
+            return false;
+        }
         int res = 0;
         for (auto *a : agents_) {
             if (!compute_sp_(a)) {
@@ -177,6 +187,9 @@ class MAPF {
     //! Atoms reach(A,U,T) will be added indicating that an agent A can reach a
     //! node U at time point T.
     auto compute_reach(Clingo::Backend &bck, cmapf_objective type, int delta_or_horizon) -> bool {
+        if (sp_unsat_) {
+            return false;
+        }
         switch (type) {
             case cmapf_objective_makespan: {
                 for (auto *a : agents_) {
@@ -210,8 +223,14 @@ class MAPF {
   private:
     //! Compute the shortest path for a single agent.
     auto compute_sp_(Agent *a) -> bool {
+        // we have already computed the shortest path for the agent.
+        if (a->sp_backup_len.type() == Clingo::SymbolType::Number) {
+            a->sp_len = a->sp_backup_len;
+            return true;
+        }
         // ensure that the instance is sane enough to start computation
         if (a->start == nullptr || a->goal == nullptr) {
+            sp_unsat_ = true;
             return false;
         }
         for (auto *node : nodes_) {
@@ -233,9 +252,11 @@ class MAPF {
             }
         }
         if (a->goal->cost == std::numeric_limits<int>::max()) {
+            sp_unsat_ = true;
             return false;
         }
-        a->sp_len = Clingo::Number(static_cast<int>(a->goal->cost));
+        a->sp_backup_len = Clingo::Number(static_cast<int>(a->goal->cost));
+        a->sp_len = a->sp_backup_len;
         return true;
     }
 
@@ -330,6 +351,11 @@ class MAPF {
     std::unordered_map<Clingo::Symbol, Agent> agent_map_;
     //! The list of agents in insertion order.
     std::vector<Agent *> agents_;
+    //! Boolean indicating whether the problem is trivially unsatisfiable.
+    //!
+    //! This flag is set if there is an agent that does not have a shortest path to its goal.
+    //! All further computation from this point is pointless.
+    bool sp_unsat_ = false;
 };
 
 } // namespace
@@ -348,13 +374,24 @@ extern "C" void cmapf_version(int *major, int *minor, int *patch) {
     }
 }
 
-extern "C" auto cmapf_compute_min_delta_or_horizon(clingo_control_t *c_ctl, cmapf_objective_t type, bool *res,
+struct cmapf_problem : MAPF {};
+
+extern "C" auto cmapf_problem_construct(cmapf_problem_t **problem, clingo_control_t *c_ctl) -> bool {
+    CMAPF_TRY {
+        auto prob = std::make_unique<MAPF>();
+        auto ctl = Clingo::Control{c_ctl, false};
+        prob->init(ctl);
+        *problem = static_cast<cmapf_problem_t *>(prob.release());
+    }
+    CMAPF_CATCH;
+}
+
+extern "C" void cmapf_problem_destroy(cmapf_problem_t *problem) { delete static_cast<MAPF *>(problem); }
+
+extern "C" auto cmapf_problem_min_delta_or_horizon(cmapf_problem_t *problem, cmapf_objective_t type, bool *res,
                                                    int *delta) -> bool {
     CMAPF_TRY {
-        auto ctl = Clingo::Control{c_ctl, false};
-        MAPF prob;
-        prob.init(ctl);
-        auto ret = type == cmapf_objective_sum_of_costs ? prob.compute_min_delta() : prob.compute_min_horizon();
+        auto ret = type == cmapf_objective_sum_of_costs ? problem->compute_min_delta() : problem->compute_min_horizon();
         if (ret.has_value()) {
             *res = true;
             *delta = ret.value();
@@ -366,24 +403,20 @@ extern "C" auto cmapf_compute_min_delta_or_horizon(clingo_control_t *c_ctl, cmap
     CMAPF_CATCH;
 }
 
-extern "C" auto cmapf_compute_sp_length(clingo_control_t *c_ctl, bool *res) -> bool {
+extern "C" auto cmapf_problem_add_sp_length(cmapf_problem_t *problem, clingo_control_t *c_ctl, bool *res) -> bool {
     CMAPF_TRY {
         auto ctl = Clingo::Control{c_ctl, false};
-        MAPF prob;
-        prob.init(ctl);
-        ctl.with_backend([&prob, res](Clingo::Backend &bck) { *res = prob.compute_sp(bck); });
+        ctl.with_backend([problem, res](Clingo::Backend &bck) { *res = problem->compute_sp(bck); });
     }
     CMAPF_CATCH;
 }
 
-extern "C" auto cmapf_compute_reachable(clingo_control_t *c_ctl, cmapf_objective_t type, int delta_or_horizon,
-                                        bool *res) -> bool {
+extern "C" auto cmapf_problem_add_reachable(cmapf_problem_t *problem, clingo_control_t *c_ctl, cmapf_objective_t type,
+                                            int delta_or_horizon, bool *res) -> bool {
     CMAPF_TRY {
         auto ctl = Clingo::Control{c_ctl, false};
-        MAPF prob;
-        prob.init(ctl);
-        ctl.with_backend([&prob, type, delta_or_horizon, res](Clingo::Backend &bck) {
-            *res = prob.compute_reach(bck, static_cast<cmapf_objective>(type), delta_or_horizon);
+        ctl.with_backend([problem, type, delta_or_horizon, res](Clingo::Backend &bck) {
+            *res = problem->compute_reach(bck, static_cast<cmapf_objective>(type), delta_or_horizon);
         });
     }
     CMAPF_CATCH;

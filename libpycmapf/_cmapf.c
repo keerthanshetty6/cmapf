@@ -572,39 +572,49 @@ static void (*_cffi_call_python_org)(struct _cffi_externpy_s *, char *);
 /************************************************************/
 
 static void *_cffi_types[] = {
-/*  0 */ _CFFI_OP(_CFFI_OP_FUNCTION, 27), // _Bool()(clingo_control_t *, _Bool *)
-/*  1 */ _CFFI_OP(_CFFI_OP_POINTER, 29), // clingo_control_t *
-/*  2 */ _CFFI_OP(_CFFI_OP_POINTER, 27), // _Bool *
-/*  3 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/*  4 */ _CFFI_OP(_CFFI_OP_FUNCTION, 27), // _Bool()(clingo_control_t *, int, _Bool *, int *)
-/*  5 */ _CFFI_OP(_CFFI_OP_NOOP, 1),
-/*  6 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7), // int
-/*  7 */ _CFFI_OP(_CFFI_OP_NOOP, 2),
-/*  8 */ _CFFI_OP(_CFFI_OP_POINTER, 6), // int *
+/*  0 */ _CFFI_OP(_CFFI_OP_FUNCTION, 36), // _Bool()(clingo_symbolic_atoms_t *, char const *, int, int *)
+/*  1 */ _CFFI_OP(_CFFI_OP_POINTER, 39), // clingo_symbolic_atoms_t *
+/*  2 */ _CFFI_OP(_CFFI_OP_POINTER, 37), // char const *
+/*  3 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7), // int
+/*  4 */ _CFFI_OP(_CFFI_OP_POINTER, 3), // int *
+/*  5 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/*  6 */ _CFFI_OP(_CFFI_OP_FUNCTION, 36), // _Bool()(cmapf_problem_t * *, clingo_control_t *)
+/*  7 */ _CFFI_OP(_CFFI_OP_POINTER, 11), // cmapf_problem_t * *
+/*  8 */ _CFFI_OP(_CFFI_OP_POINTER, 38), // clingo_control_t *
 /*  9 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 10 */ _CFFI_OP(_CFFI_OP_FUNCTION, 27), // _Bool()(clingo_control_t *, int, int, _Bool *)
-/* 11 */ _CFFI_OP(_CFFI_OP_NOOP, 1),
-/* 12 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
-/* 13 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
-/* 14 */ _CFFI_OP(_CFFI_OP_NOOP, 2),
-/* 15 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 16 */ _CFFI_OP(_CFFI_OP_FUNCTION, 27), // _Bool()(clingo_symbolic_atoms_t *, char const *, int, int *)
-/* 17 */ _CFFI_OP(_CFFI_OP_POINTER, 30), // clingo_symbolic_atoms_t *
-/* 18 */ _CFFI_OP(_CFFI_OP_POINTER, 28), // char const *
+/* 10 */ _CFFI_OP(_CFFI_OP_FUNCTION, 36), // _Bool()(cmapf_problem_t *, clingo_control_t *, _Bool *)
+/* 11 */ _CFFI_OP(_CFFI_OP_POINTER, 40), // cmapf_problem_t *
+/* 12 */ _CFFI_OP(_CFFI_OP_NOOP, 8),
+/* 13 */ _CFFI_OP(_CFFI_OP_POINTER, 36), // _Bool *
+/* 14 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 15 */ _CFFI_OP(_CFFI_OP_FUNCTION, 36), // _Bool()(cmapf_problem_t *, clingo_control_t *, int, int, _Bool *)
+/* 16 */ _CFFI_OP(_CFFI_OP_NOOP, 11),
+/* 17 */ _CFFI_OP(_CFFI_OP_NOOP, 8),
+/* 18 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
 /* 19 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
-/* 20 */ _CFFI_OP(_CFFI_OP_NOOP, 8),
+/* 20 */ _CFFI_OP(_CFFI_OP_NOOP, 13),
 /* 21 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 22 */ _CFFI_OP(_CFFI_OP_FUNCTION, 32), // void()(int *, int *, int *)
-/* 23 */ _CFFI_OP(_CFFI_OP_NOOP, 8),
-/* 24 */ _CFFI_OP(_CFFI_OP_NOOP, 8),
-/* 25 */ _CFFI_OP(_CFFI_OP_NOOP, 8),
-/* 26 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 27 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 1), // _Bool
-/* 28 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 2), // char
-/* 29 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 0), // clingo_control_t
-/* 30 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 1), // clingo_symbolic_atoms_t
-/* 31 */ _CFFI_OP(_CFFI_OP_ENUM, 0), // enum cmapf_objective
-/* 32 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 0), // void
+/* 22 */ _CFFI_OP(_CFFI_OP_FUNCTION, 36), // _Bool()(cmapf_problem_t *, int, _Bool *, int *)
+/* 23 */ _CFFI_OP(_CFFI_OP_NOOP, 11),
+/* 24 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
+/* 25 */ _CFFI_OP(_CFFI_OP_NOOP, 13),
+/* 26 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
+/* 27 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 28 */ _CFFI_OP(_CFFI_OP_FUNCTION, 42), // void()(cmapf_problem_t *)
+/* 29 */ _CFFI_OP(_CFFI_OP_NOOP, 11),
+/* 30 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 31 */ _CFFI_OP(_CFFI_OP_FUNCTION, 42), // void()(int *, int *, int *)
+/* 32 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
+/* 33 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
+/* 34 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
+/* 35 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 36 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 1), // _Bool
+/* 37 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 2), // char
+/* 38 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 0), // clingo_control_t
+/* 39 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 1), // clingo_symbolic_atoms_t
+/* 40 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 2), // cmapf_problem_t
+/* 41 */ _CFFI_OP(_CFFI_OP_ENUM, 0), // enum cmapf_objective
+/* 42 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 0), // void
 };
 
 static int _cffi_const_cmapf_objective_sum_of_costs(unsigned long long *o)
@@ -620,194 +630,6 @@ static int _cffi_const_cmapf_objective_makespan(unsigned long long *o)
   *o = (unsigned long long)((cmapf_objective_makespan) | 0);  /* check that cmapf_objective_makespan is an integer */
   return n;
 }
-
-static _Bool _cffi_d_cmapf_compute_min_delta_or_horizon(clingo_control_t * x0, int x1, _Bool * x2, int * x3)
-{
-  return cmapf_compute_min_delta_or_horizon(x0, x1, x2, x3);
-}
-#ifndef PYPY_VERSION
-static PyObject *
-_cffi_f_cmapf_compute_min_delta_or_horizon(PyObject *self, PyObject *args)
-{
-  clingo_control_t * x0;
-  int x1;
-  _Bool * x2;
-  int * x3;
-  Py_ssize_t datasize;
-  struct _cffi_freeme_s *large_args_free = NULL;
-  _Bool result;
-  PyObject *pyresult;
-  PyObject *arg0;
-  PyObject *arg1;
-  PyObject *arg2;
-  PyObject *arg3;
-
-  if (!PyArg_UnpackTuple(args, "cmapf_compute_min_delta_or_horizon", 4, 4, &arg0, &arg1, &arg2, &arg3))
-    return NULL;
-
-  datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(1), arg0, (char **)&x0);
-  if (datasize != 0) {
-    x0 = ((size_t)datasize) <= 640 ? (clingo_control_t *)alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(1), arg0, (char **)&x0,
-            datasize, &large_args_free) < 0)
-      return NULL;
-  }
-
-  x1 = _cffi_to_c_int(arg1, int);
-  if (x1 == (int)-1 && PyErr_Occurred())
-    return NULL;
-
-  datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(2), arg2, (char **)&x2);
-  if (datasize != 0) {
-    x2 = ((size_t)datasize) <= 640 ? (_Bool *)alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(2), arg2, (char **)&x2,
-            datasize, &large_args_free) < 0)
-      return NULL;
-  }
-
-  datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(8), arg3, (char **)&x3);
-  if (datasize != 0) {
-    x3 = ((size_t)datasize) <= 640 ? (int *)alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(8), arg3, (char **)&x3,
-            datasize, &large_args_free) < 0)
-      return NULL;
-  }
-
-  Py_BEGIN_ALLOW_THREADS
-  _cffi_restore_errno();
-  { result = cmapf_compute_min_delta_or_horizon(x0, x1, x2, x3); }
-  _cffi_save_errno();
-  Py_END_ALLOW_THREADS
-
-  (void)self; /* unused */
-  pyresult = _cffi_from_c__Bool(result);
-  if (large_args_free != NULL) _cffi_free_array_arguments(large_args_free);
-  return pyresult;
-}
-#else
-#  define _cffi_f_cmapf_compute_min_delta_or_horizon _cffi_d_cmapf_compute_min_delta_or_horizon
-#endif
-
-static _Bool _cffi_d_cmapf_compute_reachable(clingo_control_t * x0, int x1, int x2, _Bool * x3)
-{
-  return cmapf_compute_reachable(x0, x1, x2, x3);
-}
-#ifndef PYPY_VERSION
-static PyObject *
-_cffi_f_cmapf_compute_reachable(PyObject *self, PyObject *args)
-{
-  clingo_control_t * x0;
-  int x1;
-  int x2;
-  _Bool * x3;
-  Py_ssize_t datasize;
-  struct _cffi_freeme_s *large_args_free = NULL;
-  _Bool result;
-  PyObject *pyresult;
-  PyObject *arg0;
-  PyObject *arg1;
-  PyObject *arg2;
-  PyObject *arg3;
-
-  if (!PyArg_UnpackTuple(args, "cmapf_compute_reachable", 4, 4, &arg0, &arg1, &arg2, &arg3))
-    return NULL;
-
-  datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(1), arg0, (char **)&x0);
-  if (datasize != 0) {
-    x0 = ((size_t)datasize) <= 640 ? (clingo_control_t *)alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(1), arg0, (char **)&x0,
-            datasize, &large_args_free) < 0)
-      return NULL;
-  }
-
-  x1 = _cffi_to_c_int(arg1, int);
-  if (x1 == (int)-1 && PyErr_Occurred())
-    return NULL;
-
-  x2 = _cffi_to_c_int(arg2, int);
-  if (x2 == (int)-1 && PyErr_Occurred())
-    return NULL;
-
-  datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(2), arg3, (char **)&x3);
-  if (datasize != 0) {
-    x3 = ((size_t)datasize) <= 640 ? (_Bool *)alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(2), arg3, (char **)&x3,
-            datasize, &large_args_free) < 0)
-      return NULL;
-  }
-
-  Py_BEGIN_ALLOW_THREADS
-  _cffi_restore_errno();
-  { result = cmapf_compute_reachable(x0, x1, x2, x3); }
-  _cffi_save_errno();
-  Py_END_ALLOW_THREADS
-
-  (void)self; /* unused */
-  pyresult = _cffi_from_c__Bool(result);
-  if (large_args_free != NULL) _cffi_free_array_arguments(large_args_free);
-  return pyresult;
-}
-#else
-#  define _cffi_f_cmapf_compute_reachable _cffi_d_cmapf_compute_reachable
-#endif
-
-static _Bool _cffi_d_cmapf_compute_sp_length(clingo_control_t * x0, _Bool * x1)
-{
-  return cmapf_compute_sp_length(x0, x1);
-}
-#ifndef PYPY_VERSION
-static PyObject *
-_cffi_f_cmapf_compute_sp_length(PyObject *self, PyObject *args)
-{
-  clingo_control_t * x0;
-  _Bool * x1;
-  Py_ssize_t datasize;
-  struct _cffi_freeme_s *large_args_free = NULL;
-  _Bool result;
-  PyObject *pyresult;
-  PyObject *arg0;
-  PyObject *arg1;
-
-  if (!PyArg_UnpackTuple(args, "cmapf_compute_sp_length", 2, 2, &arg0, &arg1))
-    return NULL;
-
-  datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(1), arg0, (char **)&x0);
-  if (datasize != 0) {
-    x0 = ((size_t)datasize) <= 640 ? (clingo_control_t *)alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(1), arg0, (char **)&x0,
-            datasize, &large_args_free) < 0)
-      return NULL;
-  }
-
-  datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(2), arg1, (char **)&x1);
-  if (datasize != 0) {
-    x1 = ((size_t)datasize) <= 640 ? (_Bool *)alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(2), arg1, (char **)&x1,
-            datasize, &large_args_free) < 0)
-      return NULL;
-  }
-
-  Py_BEGIN_ALLOW_THREADS
-  _cffi_restore_errno();
-  { result = cmapf_compute_sp_length(x0, x1); }
-  _cffi_save_errno();
-  Py_END_ALLOW_THREADS
-
-  (void)self; /* unused */
-  pyresult = _cffi_from_c__Bool(result);
-  if (large_args_free != NULL) _cffi_free_array_arguments(large_args_free);
-  return pyresult;
-}
-#else
-#  define _cffi_f_cmapf_compute_sp_length _cffi_d_cmapf_compute_sp_length
-#endif
 
 static _Bool _cffi_d_cmapf_count_atoms(clingo_symbolic_atoms_t * x0, char const * x1, int x2, int * x3)
 {
@@ -834,19 +656,19 @@ _cffi_f_cmapf_count_atoms(PyObject *self, PyObject *args)
     return NULL;
 
   datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(17), arg0, (char **)&x0);
+      _cffi_type(1), arg0, (char **)&x0);
   if (datasize != 0) {
     x0 = ((size_t)datasize) <= 640 ? (clingo_symbolic_atoms_t *)alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(17), arg0, (char **)&x0,
+    if (_cffi_convert_array_argument(_cffi_type(1), arg0, (char **)&x0,
             datasize, &large_args_free) < 0)
       return NULL;
   }
 
   datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(18), arg1, (char **)&x1);
+      _cffi_type(2), arg1, (char **)&x1);
   if (datasize != 0) {
     x1 = ((size_t)datasize) <= 640 ? (char const *)alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(18), arg1, (char **)&x1,
+    if (_cffi_convert_array_argument(_cffi_type(2), arg1, (char **)&x1,
             datasize, &large_args_free) < 0)
       return NULL;
   }
@@ -856,10 +678,10 @@ _cffi_f_cmapf_count_atoms(PyObject *self, PyObject *args)
     return NULL;
 
   datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(8), arg3, (char **)&x3);
+      _cffi_type(4), arg3, (char **)&x3);
   if (datasize != 0) {
     x3 = ((size_t)datasize) <= 640 ? (int *)alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(8), arg3, (char **)&x3,
+    if (_cffi_convert_array_argument(_cffi_type(4), arg3, (char **)&x3,
             datasize, &large_args_free) < 0)
       return NULL;
   }
@@ -877,6 +699,305 @@ _cffi_f_cmapf_count_atoms(PyObject *self, PyObject *args)
 }
 #else
 #  define _cffi_f_cmapf_count_atoms _cffi_d_cmapf_count_atoms
+#endif
+
+static _Bool _cffi_d_cmapf_problem_add_reachable(cmapf_problem_t * x0, clingo_control_t * x1, int x2, int x3, _Bool * x4)
+{
+  return cmapf_problem_add_reachable(x0, x1, x2, x3, x4);
+}
+#ifndef PYPY_VERSION
+static PyObject *
+_cffi_f_cmapf_problem_add_reachable(PyObject *self, PyObject *args)
+{
+  cmapf_problem_t * x0;
+  clingo_control_t * x1;
+  int x2;
+  int x3;
+  _Bool * x4;
+  Py_ssize_t datasize;
+  struct _cffi_freeme_s *large_args_free = NULL;
+  _Bool result;
+  PyObject *pyresult;
+  PyObject *arg0;
+  PyObject *arg1;
+  PyObject *arg2;
+  PyObject *arg3;
+  PyObject *arg4;
+
+  if (!PyArg_UnpackTuple(args, "cmapf_problem_add_reachable", 5, 5, &arg0, &arg1, &arg2, &arg3, &arg4))
+    return NULL;
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(11), arg0, (char **)&x0);
+  if (datasize != 0) {
+    x0 = ((size_t)datasize) <= 640 ? (cmapf_problem_t *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(11), arg0, (char **)&x0,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(8), arg1, (char **)&x1);
+  if (datasize != 0) {
+    x1 = ((size_t)datasize) <= 640 ? (clingo_control_t *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(8), arg1, (char **)&x1,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  x2 = _cffi_to_c_int(arg2, int);
+  if (x2 == (int)-1 && PyErr_Occurred())
+    return NULL;
+
+  x3 = _cffi_to_c_int(arg3, int);
+  if (x3 == (int)-1 && PyErr_Occurred())
+    return NULL;
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(13), arg4, (char **)&x4);
+  if (datasize != 0) {
+    x4 = ((size_t)datasize) <= 640 ? (_Bool *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(13), arg4, (char **)&x4,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  Py_BEGIN_ALLOW_THREADS
+  _cffi_restore_errno();
+  { result = cmapf_problem_add_reachable(x0, x1, x2, x3, x4); }
+  _cffi_save_errno();
+  Py_END_ALLOW_THREADS
+
+  (void)self; /* unused */
+  pyresult = _cffi_from_c__Bool(result);
+  if (large_args_free != NULL) _cffi_free_array_arguments(large_args_free);
+  return pyresult;
+}
+#else
+#  define _cffi_f_cmapf_problem_add_reachable _cffi_d_cmapf_problem_add_reachable
+#endif
+
+static _Bool _cffi_d_cmapf_problem_add_sp_length(cmapf_problem_t * x0, clingo_control_t * x1, _Bool * x2)
+{
+  return cmapf_problem_add_sp_length(x0, x1, x2);
+}
+#ifndef PYPY_VERSION
+static PyObject *
+_cffi_f_cmapf_problem_add_sp_length(PyObject *self, PyObject *args)
+{
+  cmapf_problem_t * x0;
+  clingo_control_t * x1;
+  _Bool * x2;
+  Py_ssize_t datasize;
+  struct _cffi_freeme_s *large_args_free = NULL;
+  _Bool result;
+  PyObject *pyresult;
+  PyObject *arg0;
+  PyObject *arg1;
+  PyObject *arg2;
+
+  if (!PyArg_UnpackTuple(args, "cmapf_problem_add_sp_length", 3, 3, &arg0, &arg1, &arg2))
+    return NULL;
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(11), arg0, (char **)&x0);
+  if (datasize != 0) {
+    x0 = ((size_t)datasize) <= 640 ? (cmapf_problem_t *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(11), arg0, (char **)&x0,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(8), arg1, (char **)&x1);
+  if (datasize != 0) {
+    x1 = ((size_t)datasize) <= 640 ? (clingo_control_t *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(8), arg1, (char **)&x1,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(13), arg2, (char **)&x2);
+  if (datasize != 0) {
+    x2 = ((size_t)datasize) <= 640 ? (_Bool *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(13), arg2, (char **)&x2,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  Py_BEGIN_ALLOW_THREADS
+  _cffi_restore_errno();
+  { result = cmapf_problem_add_sp_length(x0, x1, x2); }
+  _cffi_save_errno();
+  Py_END_ALLOW_THREADS
+
+  (void)self; /* unused */
+  pyresult = _cffi_from_c__Bool(result);
+  if (large_args_free != NULL) _cffi_free_array_arguments(large_args_free);
+  return pyresult;
+}
+#else
+#  define _cffi_f_cmapf_problem_add_sp_length _cffi_d_cmapf_problem_add_sp_length
+#endif
+
+static _Bool _cffi_d_cmapf_problem_construct(cmapf_problem_t * * x0, clingo_control_t * x1)
+{
+  return cmapf_problem_construct(x0, x1);
+}
+#ifndef PYPY_VERSION
+static PyObject *
+_cffi_f_cmapf_problem_construct(PyObject *self, PyObject *args)
+{
+  cmapf_problem_t * * x0;
+  clingo_control_t * x1;
+  Py_ssize_t datasize;
+  struct _cffi_freeme_s *large_args_free = NULL;
+  _Bool result;
+  PyObject *pyresult;
+  PyObject *arg0;
+  PyObject *arg1;
+
+  if (!PyArg_UnpackTuple(args, "cmapf_problem_construct", 2, 2, &arg0, &arg1))
+    return NULL;
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(7), arg0, (char **)&x0);
+  if (datasize != 0) {
+    x0 = ((size_t)datasize) <= 640 ? (cmapf_problem_t * *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(7), arg0, (char **)&x0,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(8), arg1, (char **)&x1);
+  if (datasize != 0) {
+    x1 = ((size_t)datasize) <= 640 ? (clingo_control_t *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(8), arg1, (char **)&x1,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  Py_BEGIN_ALLOW_THREADS
+  _cffi_restore_errno();
+  { result = cmapf_problem_construct(x0, x1); }
+  _cffi_save_errno();
+  Py_END_ALLOW_THREADS
+
+  (void)self; /* unused */
+  pyresult = _cffi_from_c__Bool(result);
+  if (large_args_free != NULL) _cffi_free_array_arguments(large_args_free);
+  return pyresult;
+}
+#else
+#  define _cffi_f_cmapf_problem_construct _cffi_d_cmapf_problem_construct
+#endif
+
+static void _cffi_d_cmapf_problem_destroy(cmapf_problem_t * x0)
+{
+  cmapf_problem_destroy(x0);
+}
+#ifndef PYPY_VERSION
+static PyObject *
+_cffi_f_cmapf_problem_destroy(PyObject *self, PyObject *arg0)
+{
+  cmapf_problem_t * x0;
+  Py_ssize_t datasize;
+  struct _cffi_freeme_s *large_args_free = NULL;
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(11), arg0, (char **)&x0);
+  if (datasize != 0) {
+    x0 = ((size_t)datasize) <= 640 ? (cmapf_problem_t *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(11), arg0, (char **)&x0,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  Py_BEGIN_ALLOW_THREADS
+  _cffi_restore_errno();
+  { cmapf_problem_destroy(x0); }
+  _cffi_save_errno();
+  Py_END_ALLOW_THREADS
+
+  (void)self; /* unused */
+  if (large_args_free != NULL) _cffi_free_array_arguments(large_args_free);
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+#else
+#  define _cffi_f_cmapf_problem_destroy _cffi_d_cmapf_problem_destroy
+#endif
+
+static _Bool _cffi_d_cmapf_problem_min_delta_or_horizon(cmapf_problem_t * x0, int x1, _Bool * x2, int * x3)
+{
+  return cmapf_problem_min_delta_or_horizon(x0, x1, x2, x3);
+}
+#ifndef PYPY_VERSION
+static PyObject *
+_cffi_f_cmapf_problem_min_delta_or_horizon(PyObject *self, PyObject *args)
+{
+  cmapf_problem_t * x0;
+  int x1;
+  _Bool * x2;
+  int * x3;
+  Py_ssize_t datasize;
+  struct _cffi_freeme_s *large_args_free = NULL;
+  _Bool result;
+  PyObject *pyresult;
+  PyObject *arg0;
+  PyObject *arg1;
+  PyObject *arg2;
+  PyObject *arg3;
+
+  if (!PyArg_UnpackTuple(args, "cmapf_problem_min_delta_or_horizon", 4, 4, &arg0, &arg1, &arg2, &arg3))
+    return NULL;
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(11), arg0, (char **)&x0);
+  if (datasize != 0) {
+    x0 = ((size_t)datasize) <= 640 ? (cmapf_problem_t *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(11), arg0, (char **)&x0,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  x1 = _cffi_to_c_int(arg1, int);
+  if (x1 == (int)-1 && PyErr_Occurred())
+    return NULL;
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(13), arg2, (char **)&x2);
+  if (datasize != 0) {
+    x2 = ((size_t)datasize) <= 640 ? (_Bool *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(13), arg2, (char **)&x2,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(4), arg3, (char **)&x3);
+  if (datasize != 0) {
+    x3 = ((size_t)datasize) <= 640 ? (int *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(4), arg3, (char **)&x3,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  Py_BEGIN_ALLOW_THREADS
+  _cffi_restore_errno();
+  { result = cmapf_problem_min_delta_or_horizon(x0, x1, x2, x3); }
+  _cffi_save_errno();
+  Py_END_ALLOW_THREADS
+
+  (void)self; /* unused */
+  pyresult = _cffi_from_c__Bool(result);
+  if (large_args_free != NULL) _cffi_free_array_arguments(large_args_free);
+  return pyresult;
+}
+#else
+#  define _cffi_f_cmapf_problem_min_delta_or_horizon _cffi_d_cmapf_problem_min_delta_or_horizon
 #endif
 
 static void _cffi_d_cmapf_version(int * x0, int * x1, int * x2)
@@ -900,28 +1021,28 @@ _cffi_f_cmapf_version(PyObject *self, PyObject *args)
     return NULL;
 
   datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(8), arg0, (char **)&x0);
+      _cffi_type(4), arg0, (char **)&x0);
   if (datasize != 0) {
     x0 = ((size_t)datasize) <= 640 ? (int *)alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(8), arg0, (char **)&x0,
+    if (_cffi_convert_array_argument(_cffi_type(4), arg0, (char **)&x0,
             datasize, &large_args_free) < 0)
       return NULL;
   }
 
   datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(8), arg1, (char **)&x1);
+      _cffi_type(4), arg1, (char **)&x1);
   if (datasize != 0) {
     x1 = ((size_t)datasize) <= 640 ? (int *)alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(8), arg1, (char **)&x1,
+    if (_cffi_convert_array_argument(_cffi_type(4), arg1, (char **)&x1,
             datasize, &large_args_free) < 0)
       return NULL;
   }
 
   datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(8), arg2, (char **)&x2);
+      _cffi_type(4), arg2, (char **)&x2);
   if (datasize != 0) {
     x2 = ((size_t)datasize) <= 640 ? (int *)alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(8), arg2, (char **)&x2,
+    if (_cffi_convert_array_argument(_cffi_type(4), arg2, (char **)&x2,
             datasize, &large_args_free) < 0)
       return NULL;
   }
@@ -942,31 +1063,36 @@ _cffi_f_cmapf_version(PyObject *self, PyObject *args)
 #endif
 
 static const struct _cffi_global_s _cffi_globals[] = {
-  { "cmapf_compute_min_delta_or_horizon", (void *)_cffi_f_cmapf_compute_min_delta_or_horizon, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 4), (void *)_cffi_d_cmapf_compute_min_delta_or_horizon },
-  { "cmapf_compute_reachable", (void *)_cffi_f_cmapf_compute_reachable, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 10), (void *)_cffi_d_cmapf_compute_reachable },
-  { "cmapf_compute_sp_length", (void *)_cffi_f_cmapf_compute_sp_length, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 0), (void *)_cffi_d_cmapf_compute_sp_length },
-  { "cmapf_count_atoms", (void *)_cffi_f_cmapf_count_atoms, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 16), (void *)_cffi_d_cmapf_count_atoms },
+  { "cmapf_count_atoms", (void *)_cffi_f_cmapf_count_atoms, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 0), (void *)_cffi_d_cmapf_count_atoms },
   { "cmapf_objective_makespan", (void *)_cffi_const_cmapf_objective_makespan, _CFFI_OP(_CFFI_OP_ENUM, -1), (void *)0 },
   { "cmapf_objective_sum_of_costs", (void *)_cffi_const_cmapf_objective_sum_of_costs, _CFFI_OP(_CFFI_OP_ENUM, -1), (void *)0 },
-  { "cmapf_version", (void *)_cffi_f_cmapf_version, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 22), (void *)_cffi_d_cmapf_version },
+  { "cmapf_problem_add_reachable", (void *)_cffi_f_cmapf_problem_add_reachable, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 15), (void *)_cffi_d_cmapf_problem_add_reachable },
+  { "cmapf_problem_add_sp_length", (void *)_cffi_f_cmapf_problem_add_sp_length, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 10), (void *)_cffi_d_cmapf_problem_add_sp_length },
+  { "cmapf_problem_construct", (void *)_cffi_f_cmapf_problem_construct, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 6), (void *)_cffi_d_cmapf_problem_construct },
+  { "cmapf_problem_destroy", (void *)_cffi_f_cmapf_problem_destroy, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 28), (void *)_cffi_d_cmapf_problem_destroy },
+  { "cmapf_problem_min_delta_or_horizon", (void *)_cffi_f_cmapf_problem_min_delta_or_horizon, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 22), (void *)_cffi_d_cmapf_problem_min_delta_or_horizon },
+  { "cmapf_version", (void *)_cffi_f_cmapf_version, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 31), (void *)_cffi_d_cmapf_version },
 };
 
 static const struct _cffi_struct_union_s _cffi_struct_unions[] = {
-  { "clingo_control", 29, _CFFI_F_OPAQUE,
+  { "clingo_control", 38, _CFFI_F_OPAQUE,
     (size_t)-1, -1, -1, 0 /* opaque */ },
-  { "clingo_symbolic_atoms", 30, _CFFI_F_OPAQUE,
+  { "clingo_symbolic_atoms", 39, _CFFI_F_OPAQUE,
+    (size_t)-1, -1, -1, 0 /* opaque */ },
+  { "cmapf_problem", 40, _CFFI_F_OPAQUE,
     (size_t)-1, -1, -1, 0 /* opaque */ },
 };
 
 static const struct _cffi_enum_s _cffi_enums[] = {
-  { "cmapf_objective", 31, _cffi_prim_int(sizeof(enum cmapf_objective), ((enum cmapf_objective)-1) <= 0),
+  { "cmapf_objective", 41, _cffi_prim_int(sizeof(enum cmapf_objective), ((enum cmapf_objective)-1) <= 0),
     "cmapf_objective_sum_of_costs,cmapf_objective_makespan" },
 };
 
 static const struct _cffi_typename_s _cffi_typenames[] = {
-  { "clingo_control_t", 29 },
-  { "clingo_symbolic_atoms_t", 30 },
-  { "cmapf_objective_t", 6 },
+  { "clingo_control_t", 38 },
+  { "clingo_symbolic_atoms_t", 39 },
+  { "cmapf_objective_t", 3 },
+  { "cmapf_problem_t", 40 },
 };
 
 static const struct _cffi_type_context_s _cffi_type_context = {
@@ -976,12 +1102,12 @@ static const struct _cffi_type_context_s _cffi_type_context = {
   _cffi_struct_unions,
   _cffi_enums,
   _cffi_typenames,
-  7,  /* num_globals */
-  2,  /* num_struct_unions */
+  9,  /* num_globals */
+  3,  /* num_struct_unions */
   1,  /* num_enums */
-  3,  /* num_typenames */
+  4,  /* num_typenames */
   NULL,  /* no includes */
-  33,  /* num_types */
+  43,  /* num_types */
   0,  /* flags */
 };
 
