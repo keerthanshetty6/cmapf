@@ -176,7 +176,7 @@ class MAPF {
     //! length of its shortest path from start to goal plus the given delta.
     //! Atoms reach(A,U,T) will be added indicating that an agent A can reach a
     //! node U at time point T.
-    auto compute_reach(Clingo::Backend &bck, cmapf_objective type, int delta) -> bool {
+    auto compute_reach(Clingo::Backend &bck, cmapf_objective type, int delta_or_horizon) -> bool {
         switch (type) {
             case cmapf_objective_makespan: {
                 for (auto *a : agents_) {
@@ -192,10 +192,10 @@ class MAPF {
             }
         }
         for (auto *a : agents_) {
-            if (!compute_forward_reach_(a, delta)) {
+            if (!compute_forward_reach_(a, delta_or_horizon)) {
                 return false;
             }
-            compute_backward_reach_(a, delta);
+            compute_backward_reach_(a, delta_or_horizon);
             // add possible locations
             for (auto *node : nodes_) {
                 for (int t = node->cost; t <= node->max_cost; ++t) {
