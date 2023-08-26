@@ -155,15 +155,41 @@ class MAPF {
         }
     }
 
+    //! Compute a minmal delta for which the problem is not trivially
+    //! unsatisfiable.
+    auto compute_min_horizon() -> std::optional<int> {
+        int res = 0;
+        for (auto *a : agents_) {
+            if (!compute_sp_(a)) {
+                return std::nullopt;
+            }
+            if (res < a->sp_len.number()) {
+                res = a->sp_len.number();
+            }
+        }
+        return res;
+    }
+
     //! Compute reachable nodes assuming limited moves of the agents.
     //!
     //! An agent can only move for the first n time points, where n is the
     //! length of its shortest path from start to goal plus the given delta.
     //! Atoms reach(A,U,T) will be added indicating that an agent A can reach a
     //! node U at time point T.
-    auto compute_reach(Clingo::Backend &bck, int delta) -> bool {
-        if (!compute_sp(bck)) {
-            return false;
+    auto compute_reach(Clingo::Backend &bck, cmapf_objective type, int delta) -> bool {
+        switch (type) {
+            case cmapf_objective_makespan: {
+                for (auto *a : agents_) {
+                    a->sp_len = Clingo::Number(0);
+                }
+                break;
+            }
+            case cmapf_objective_sum_of_costs: {
+                if (!compute_sp(bck)) {
+                    return false;
+                }
+                break;
+            }
         }
         for (auto *a : agents_) {
             if (!compute_forward_reach_(a, delta)) {
@@ -322,12 +348,13 @@ extern "C" void cmapf_version(int *major, int *minor, int *patch) {
     }
 }
 
-extern "C" auto cmapf_compute_min_delta(clingo_control_t *c_ctl, bool *res, int *delta) -> bool {
+extern "C" auto cmapf_compute_min_delta_or_horizon(clingo_control_t *c_ctl, cmapf_objective_t type, bool *res,
+                                                   int *delta) -> bool {
     CMAPF_TRY {
         auto ctl = Clingo::Control{c_ctl, false};
         MAPF prob;
         prob.init(ctl);
-        auto ret = prob.compute_min_delta();
+        auto ret = type == cmapf_objective_sum_of_costs ? prob.compute_min_delta() : prob.compute_min_horizon();
         if (ret.has_value()) {
             *res = true;
             *delta = ret.value();
@@ -349,12 +376,15 @@ extern "C" auto cmapf_compute_sp_length(clingo_control_t *c_ctl, bool *res) -> b
     CMAPF_CATCH;
 }
 
-extern "C" auto cmapf_compute_reachable(clingo_control_t *c_ctl, int delta, bool *res) -> bool {
+extern "C" auto cmapf_compute_reachable(clingo_control_t *c_ctl, cmapf_objective_t type, int delta_or_horizon,
+                                        bool *res) -> bool {
     CMAPF_TRY {
         auto ctl = Clingo::Control{c_ctl, false};
         MAPF prob;
         prob.init(ctl);
-        ctl.with_backend([&prob, delta, res](Clingo::Backend &bck) { *res = prob.compute_reach(bck, delta); });
+        ctl.with_backend([&prob, type, delta_or_horizon, res](Clingo::Backend &bck) {
+            *res = prob.compute_reach(bck, static_cast<cmapf_objective>(type), delta_or_horizon);
+        });
     }
     CMAPF_CATCH;
 }

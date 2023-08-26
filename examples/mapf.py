@@ -87,7 +87,9 @@ class MAPFApp(Application):
         # either compute or use given delta
         if self._delta is None:
             start = timeit.default_timer()
-            delta = cmapf.compute_min_delta(ctl)
+            delta = cmapf.compute_min_delta_or_horizon(
+                ctl, cmapf.Objective.SUM_OF_COSTS
+            )
             self._stats["Time"]["Min Delta"] = timeit.default_timer() - start
         else:
             delta = self._delta
@@ -100,7 +102,7 @@ class MAPFApp(Application):
         elif self._reach:
             # reachability computation via C++ has been requested
             start = timeit.default_timer()
-            res = cmapf.add_reachable(ctl, delta)
+            res = cmapf.add_reachable(ctl, cmapf.Objective.SUM_OF_COSTS, delta)
             self._stats["Time"]["Reachable"] = timeit.default_timer() - start
         else:
             # reachability computation via ASP has been requested

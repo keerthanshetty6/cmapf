@@ -41,14 +41,25 @@ extern "C" {
 
 #include <clingo.h>
 
+//! Configure for which objective to compute reachable positions.
+enum cmapf_objective {
+    cmapf_objective_sum_of_costs = 0, //!< The sum of costs objective.
+    cmapf_objective_makespan = 1     //!< The makespan objective.
+};
+//! Corresponds to reachable_type.
+typedef int cmapf_objective_t;
+
 //! Obtain the version of the library.
 CMAPF_VISIBILITY_DEFAULT void cmapf_version(int *major, int *minor, int *patch);
 
-//! Compute the minimal delta for which the MAPF problem in the control object
-//! is not trivially unsatisfiable.
+//! Compute the minimal delta or horizon for which the MAPF problem in the
+//! control object is not trivially unsatisfiable.
+//!
+//! For the sum of costs objective this is a delta value and for the makespan
+//! objective this is a horizon.
 //!
 //! If the MAPF problem is detected to be unsatisfiable sets res to false.
-CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_min_delta(clingo_control_t *c_ctl, bool *res, int *delta);
+CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_min_delta_or_horizon(clingo_control_t *c_ctl, cmapf_objective_t type, bool *res, int *delta);
 
 //! Compute the shortest path length from start to goal for each agent.
 //!
@@ -66,8 +77,11 @@ CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_sp_length(clingo_control_t *c_ctl, b
 //! The function terminates early and sets the result to false if there is an
 //! agent that cannot reach its goal.
 //!
-//! An agent can only move for the first n time points, where n is the
-//! length of its shortest path from start to goal plus the given delta.
+//! For the sum of costs objective, an agent can only move for the first n time
+//! points, where n is the length of its shortest path from start to goal plus
+//! the given delta.
+//!
+//! For the makespan objective, an agent can move during the given horizon.
 //!
 //! The function assumes that the control object already holds a MAPF problem
 //! in standard form.
@@ -75,8 +89,9 @@ CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_sp_length(clingo_control_t *c_ctl, b
 //! Atoms over the predicates reach/3 and sp_length/2 are added to the control
 //! object. Atoms reach(A,U,T) indicate that an agent A can reach a node U at
 //! time point T. Atoms over predicate sp_length correspond to what is added
-//! with cmapf_compute_reachable().
-CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_reachable(clingo_control_t *c_ctl, int delta, bool *res);
+//! with cmapf_compute_reachable(). The shortest path length is only added for
+//! the sum of costs objective.
+CMAPF_VISIBILITY_DEFAULT bool cmapf_compute_reachable(clingo_control_t *c_ctl, cmapf_objective_t type, int delta_or_horizon, bool *res);
 
 //! Helper to count the atoms over the given signature.
 CMAPF_VISIBILITY_DEFAULT bool cmapf_count_atoms(clingo_symbolic_atoms_t *c_syms, char const *name, int arity, int *res);
