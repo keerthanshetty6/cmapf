@@ -1,31 +1,36 @@
-#include <sstream>
-#include <set>
-#include <optional>
 #include <limits>
+#include <optional>
+#include <set>
+#include <sstream>
 
 #include <clingo.hh>
 
 #include "cmapf.h"
 
-#define CMAPF_TRY try // NOLINT
-#define CMAPF_CATCH catch (...){ Clingo::Detail::handle_cxx_error(); return false; } return true // NOLINT
+#define CMAPF_TRY try
+#define CMAPF_CATCH                                                                                                    \
+    catch (...) {                                                                                                      \
+        Clingo::Detail::handle_cxx_error();                                                                            \
+        return false;                                                                                                  \
+    }                                                                                                                  \
+    return true
 
 namespace {
 
 //! MAPF class for capturing MAPF problems.
 class MAPF {
-public:
+  public:
     //! A node in the graph.
     struct Node {
         //! Construct a node with the given name.
-        Node(Clingo::Symbol name) : name{name} { }
+        Node(Clingo::Symbol name) : name{name} {}
 
         //! The name of the node.
         Clingo::Symbol name;
         //! The outgoing edges of the node.
-        std::vector<Node*> out;
+        std::vector<Node *> out;
         //! The incoming edges of the node.
-        std::vector<Node*> in;
+        std::vector<Node *> in;
         //! The minimum time to reach this node from the start node.
         int cost = std::numeric_limits<int>::max();
         //! The maximum time point from which the goal can still be reached
@@ -33,11 +38,10 @@ public:
         int max_cost = std::numeric_limits<int>::min();
         //! The time point from which this node cannot be entered anymore.
         int block = std::numeric_limits<int>::max();
-
     };
     //! Sort nodes in ascending order according to their cost.
     struct CostNodeCmp {
-        bool operator()(Node *u, Node *v) const {
+        auto operator()(Node *u, Node *v) const -> bool {
             if (u->cost != v->cost) {
                 return u->cost < v->cost;
             }
@@ -46,7 +50,7 @@ public:
     };
     //! Sort nodes in descending order according to their maximum cost.
     struct MaxCostNodeCmp {
-        bool operator()(Node *u, Node *v) const {
+        auto operator()(Node *u, Node *v) const -> bool {
             if (u->max_cost != v->max_cost) {
                 return u->max_cost > v->max_cost;
             }
@@ -55,7 +59,7 @@ public:
     };
     //! An agent in a MAPF problem.
     struct Agent {
-        Agent(Clingo::Symbol name) : name{name} { }
+        Agent(Clingo::Symbol name) : name{name} {}
         Clingo::Symbol name;
         Node *start = nullptr;
         Node *goal = nullptr;
@@ -64,7 +68,7 @@ public:
     //! Add a node with the given name to the MAPF problem.
     //!
     //! Returns the same node for the same name.
-    Node *add_node(Clingo::Symbol u) {
+    auto add_node(Clingo::Symbol u) -> Node * {
         auto ins = node_map_.try_emplace(u, u);
         if (ins.second) {
             nodes_.emplace_back(&ins.first->second);
@@ -74,7 +78,7 @@ public:
     //! Add an agent with the given name to the MAPF problem.
     //!
     //! Returns the same node for the same name.
-    Agent *add_agent(Clingo::Symbol a) {
+    auto add_agent(Clingo::Symbol a) -> Agent * {
         auto ins = agent_map_.try_emplace(a, a);
         if (ins.second) {
             agents_.emplace_back(&ins.first->second);
@@ -82,13 +86,9 @@ public:
         return &ins.first->second;
     }
     //! Add a start node for the given agent.
-    void add_start(Clingo::Symbol a, Clingo::Symbol u) {
-        add_agent(a)->start = add_node(u);
-    }
+    void add_start(Clingo::Symbol a, Clingo::Symbol u) { add_agent(a)->start = add_node(u); }
     //! Add a goal node for the given agent.
-    void add_goal(Clingo::Symbol a, Clingo::Symbol u) {
-        add_agent(a)->goal = add_node(u);
-    }
+    void add_goal(Clingo::Symbol a, Clingo::Symbol u) { add_agent(a)->goal = add_node(u); }
     //! Add an edge between two nodes.
     void add_edge(Clingo::Symbol u, Clingo::Symbol v) {
         auto *n_u = add_node(u);
@@ -121,7 +121,7 @@ public:
     //! indicating that agent A can reach its goal within L time steps.
     //! Furthermore, the shortest path is stored for later use along with the
     //! agents.
-    bool compute_sp(Clingo::Backend &bck) {
+    auto compute_sp(Clingo::Backend &bck) -> bool {
         for (auto *a : agents_) {
             if (!compute_sp_(a)) {
                 return false;
@@ -134,7 +134,7 @@ public:
 
     //! Compute a minmal delta for which the problem is not trivially
     //! unsatisfiable.
-    std::optional<int> compute_min_delta() {
+    auto compute_min_delta() -> std::optional<int> {
         for (auto *a : agents_) {
             if (!compute_sp_(a)) {
                 return std::nullopt;
@@ -161,7 +161,7 @@ public:
     //! length of its shortest path from start to goal plus the given delta.
     //! Atoms reach(A,U,T) will be added indicating that an agent A can reach a
     //! node U at time point T.
-    bool compute_reach(Clingo::Backend &bck, int delta) {
+    auto compute_reach(Clingo::Backend &bck, int delta) -> bool {
         if (!compute_sp(bck)) {
             return false;
         }
@@ -180,9 +180,10 @@ public:
         }
         return true;
     }
-private:
+
+  private:
     //! Compute the shortest path for a single agent.
-    bool compute_sp_(Agent *a) {
+    auto compute_sp_(Agent *a) -> bool {
         // ensure that the instance is sane enough to start computation
         if (a->start == nullptr || a->goal == nullptr) {
             return false;
@@ -191,7 +192,7 @@ private:
             node->cost = std::numeric_limits<int>::max();
         }
         // a poor man's heap (clingo-dl has a proper one)
-        std::set<Node*, CostNodeCmp> todo;
+        std::set<Node *, CostNodeCmp> todo;
         a->start->cost = 0;
         todo.emplace(a->start);
         while (!todo.empty()) {
@@ -216,7 +217,7 @@ private:
     //!
     //! Returns false if the agent's goal cannot be reached and assumes that
     //! shortest paths have already been computed.
-    bool compute_forward_reach_(Agent *a, int delta) {
+    auto compute_forward_reach_(Agent *a, int delta) -> bool {
         auto horizon = a->sp_len.number() + delta;
         // reset costs
         for (auto *node : nodes_) {
@@ -227,14 +228,13 @@ private:
         for (auto *b : agents_) {
             if (a != b) {
                 b->goal->block = b->sp_len.number() + delta;
-            }
-            else {
+            } else {
                 b->goal->block = std::numeric_limits<int>::max();
             }
         }
         // compute forward reachable nodes (via shortest path)
         {
-            std::set<Node*, CostNodeCmp> todo;
+            std::set<Node *, CostNodeCmp> todo;
             a->start->cost = 0;
             todo.emplace(a->start);
             while (!todo.empty()) {
@@ -266,7 +266,7 @@ private:
     //! This assumes a preceding call to compute_forward_reach_ for the same agent.
     void compute_backward_reach_(Agent *a, int delta) { // NOLINT(readability-convert-member-functions-to-static)
         auto horizon = a->sp_len.number() + delta;
-        std::set<Node*, MaxCostNodeCmp> todo;
+        std::set<Node *, MaxCostNodeCmp> todo;
         // the goal has to be reached on the horizon
         a->goal->max_cost = horizon;
         todo.emplace(a->goal);
@@ -299,14 +299,14 @@ private:
     //! Mapping from node names to actual nodes.
     std::unordered_map<Clingo::Symbol, Node> node_map_;
     //! The list of nodes in insertion order.
-    std::vector<Node*> nodes_;
+    std::vector<Node *> nodes_;
     //! Mapping from agent names to actual agents.
     std::unordered_map<Clingo::Symbol, Agent> agent_map_;
     //! The list of agents in insertion order.
-    std::vector<Agent*> agents_;
+    std::vector<Agent *> agents_;
 };
 
-}
+} // namespace
 
 using Clingo::Detail::handle_error;
 
@@ -322,7 +322,7 @@ extern "C" void cmapf_version(int *major, int *minor, int *patch) {
     }
 }
 
-extern "C" bool cmapf_compute_min_delta(clingo_control_t *c_ctl, bool *res, int *delta) {
+extern "C" auto cmapf_compute_min_delta(clingo_control_t *c_ctl, bool *res, int *delta) -> bool {
     CMAPF_TRY {
         auto ctl = Clingo::Control{c_ctl, false};
         MAPF prob;
@@ -331,8 +331,7 @@ extern "C" bool cmapf_compute_min_delta(clingo_control_t *c_ctl, bool *res, int 
         if (ret.has_value()) {
             *res = true;
             *delta = ret.value();
-        }
-        else {
+        } else {
             *res = false;
             *delta = 0;
         }
@@ -340,34 +339,31 @@ extern "C" bool cmapf_compute_min_delta(clingo_control_t *c_ctl, bool *res, int 
     CMAPF_CATCH;
 }
 
-extern "C" bool cmapf_compute_sp_length(clingo_control_t *c_ctl, bool *res) {
+extern "C" auto cmapf_compute_sp_length(clingo_control_t *c_ctl, bool *res) -> bool {
     CMAPF_TRY {
         auto ctl = Clingo::Control{c_ctl, false};
         MAPF prob;
         prob.init(ctl);
-        ctl.with_backend([&prob, res](Clingo::Backend &bck) {
-            *res = prob.compute_sp(bck);
-        });
+        ctl.with_backend([&prob, res](Clingo::Backend &bck) { *res = prob.compute_sp(bck); });
     }
     CMAPF_CATCH;
 }
 
-extern "C" bool cmapf_compute_reachable(clingo_control_t *c_ctl, int delta, bool *res) {
+extern "C" auto cmapf_compute_reachable(clingo_control_t *c_ctl, int delta, bool *res) -> bool {
     CMAPF_TRY {
         auto ctl = Clingo::Control{c_ctl, false};
         MAPF prob;
         prob.init(ctl);
-        ctl.with_backend([&prob, delta, res](Clingo::Backend &bck) {
-            *res = prob.compute_reach(bck, delta);
-        });
+        ctl.with_backend([&prob, delta, res](Clingo::Backend &bck) { *res = prob.compute_reach(bck, delta); });
     }
     CMAPF_CATCH;
 }
 
-extern "C" bool cmapf_count_atoms(clingo_symbolic_atoms_t *c_syms, char const *name, int arity, int *res) {
+extern "C" auto cmapf_count_atoms(clingo_symbolic_atoms_t *c_syms, char const *name, int arity, int *res) -> bool {
     CMAPF_TRY {
         auto syms = Clingo::SymbolicAtoms{c_syms};
-        *res = static_cast<int>(std::distance(syms.begin(Clingo::Signature{name, static_cast<uint32_t>(arity)}), syms.end()));
+        *res = static_cast<int>(
+            std::distance(syms.begin(Clingo::Signature{name, static_cast<uint32_t>(arity)}), syms.end()));
     }
     CMAPF_CATCH;
 }

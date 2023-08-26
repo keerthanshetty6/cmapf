@@ -1,7 +1,8 @@
 try:
-    from setuptools.sysconfig import get_python_lib, get_config_vars
+    from setuptools.sysconfig import get_config_vars, get_python_lib
 except ImportError:
     from distutils.sysconfig import get_python_lib, get_config_vars
+
 import sys
 
 if sys.argv[1] == "prefix":
@@ -11,7 +12,7 @@ elif sys.argv[1] == "suffix":
     if EXT_SUFFIX is not None:
         ext = EXT_SUFFIX
     elif SOABI is not None:
-        ext = ''.join('.', SOABI, SO)
+        ext = "".join(".", SOABI, SO)
     else:
         ext = SO
     print(ext)

@@ -2,10 +2,12 @@
 MAPF utilities for clingo written in C++.
 """
 
+from clingo._internal import _handle_error
 from clingo.control import Control
 from clingo.symbolic_atoms import SymbolicAtoms
-from clingo._internal import _handle_error
-from ._cmapf import lib as _lib, ffi as _ffi
+
+from ._cmapf import ffi as _ffi
+from ._cmapf import lib as _lib
 
 __all__ = ["version", "add_sp_length", "add_reachable"]
 
