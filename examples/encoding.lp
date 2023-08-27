@@ -44,10 +44,7 @@ reach(A,V,T) :- reach(A,U,T+1), forward_reach(A,V,T), edge(V,U).
 % derive locations of agents based on start positions and moves
 at(A,U,0) :- start(A,U).
 at(A,V,T) :- move(A,_,V,T).
-at(A,U,T) :- at(A,U,T-1), not move(A,U,_,T), time(A,T).
-
-% ensure valid moves
- :- move(A,U,_,T), not at(A,U,T-1).
+at(A,U,T) :- at(A,U,T-1), not move(A,U,_,T), reach(A,U,T).
 
 % prevent invalid agent positions (due to intertia)
  :- at(A,U,T), not reach(A,U,T).
