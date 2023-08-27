@@ -46,8 +46,8 @@ at(A,U,0) :- start(A,U).
 at(A,V,T) :- move(A,_,V,T).
 at(A,U,T) :- at(A,U,T-1), not move(A,U,_,T), reach(A,U,T).
 
-% prevent invalid agent positions (due to intertia)
- :- at(A,U,T), not reach(A,U,T).
+% ensure valid moves
+ :- move(A,U,_,T), not at(A,U,T-1).
 
 % ensure unique locations of agents
  :- { at(A,U,T) } != 1, time(A,T).
