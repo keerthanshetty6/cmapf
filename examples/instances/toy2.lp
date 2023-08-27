@@ -5,6 +5,8 @@ edge(1,2).
 edge(2,3).
 edge(2,4).
 
+agent(a;b).
+
 start(a,0).
 goal(a,3).
 

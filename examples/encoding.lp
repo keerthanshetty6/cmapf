@@ -1,17 +1,25 @@
+%%% setup
+
+%% setup the makespan based encoding
 #program makespan(horizon).
 
-% horizon and time points
 horizon(A,horizon) :- agent(A).
 horizon(horizon).
 
+%% setup the sum of costs based encoding
 #program sum_of_costs(delta).
 
-% horizon and time points
 horizon(A,N+delta) :- sp_length(A,N).
 horizon(M) :- M = #max { N: horizon(A,N) }.
 
-% optional reachability encoding
-% (that has to be grounded together with program mapf)
+%%% the basic mapf encoding
+
+#program mapf.
+
+time(A,1..N) :- horizon(A,N).
+time(1..N) :- horizon(N).
+
+%% optional reachability encoding (part of program mapf)
 #program reach.
 
 % vertices that cannot be entered
@@ -27,11 +35,8 @@ reach(A,U,T) :- goal(A,U), forward_reach(A,U,T), horizon(A,T).
 reach(A,U,T) :- reach(A,U,T+1), forward_reach(A,U,T).
 reach(A,V,T) :- reach(A,U,T+1), forward_reach(A,V,T), edge(V,U).
 
-% the delta value how much the length of individual agent paths can exceed their shortest path length
+%% continue mapf program
 #program mapf.
-
-time(A,1..N) :- horizon(A,N).
-time(1..N) :- horizon(N).
 
 % guess moves
 { move(A,U,V,T) : edge(U,V), reach(A,V,T) } 1 :- reach(A,U,T-1).
@@ -59,20 +64,30 @@ at(A,U,T) :- at(A,U,T-1), not move(A,U,_,T), time(A,T).
 % ensure that agents are at their goal positions
  :- goal(A,U), horizon(A,T), not at(A,U,T).
 
+%%% objectives
+
 % compute penalties
+% - for the makespan objective it might be better to project out
+%   the agent right away to have just one chain
+% - predicate penalty/2 is currently used by the mapf solver
+%   for both objectives
 penalty(A,N) :- sp_length(A,N+1), N >= 0.
 penalty(A,T) :- sp_length(A,N), at(A,U,T), not goal(A,U), T >= N.
 penalty(A,T) :- penalty(A,T+1), T >= 0.
 
+%% the sum of costs objective
 #program sum_of_costs.
 
 % minimize some of costs
 #minimize { 1,A,T: penalty(A,T) }.
 
+%% the makespan objective
 #program makespan.
 
 % minimize makespan
 #minimize { 1,T: penalty(_,T) }.
+
+%%% meta statements
 
 #show.
 #show move/4.
