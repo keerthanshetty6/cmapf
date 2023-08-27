@@ -1,5 +1,17 @@
+#program makespan(horizon).
+
+% horizon and time points
+horizon(A,horizon) :- agent(A).
+horizon(horizon).
+
+#program sum_of_costs(delta).
+
+% horizon and time points
+horizon(A,N+delta) :- sp_length(A,N).
+horizon(M) :- M = #max { N: horizon(A,N) }.
+
 % optional reachability encoding
-% (that has to be grounded together with program mapf(delta).
+% (that has to be grounded together with program mapf)
 #program reach.
 
 % vertices that cannot be entered
@@ -16,11 +28,8 @@ reach(A,U,T) :- reach(A,U,T+1), forward_reach(A,U,T).
 reach(A,V,T) :- reach(A,U,T+1), forward_reach(A,V,T), edge(V,U).
 
 % the delta value how much the length of individual agent paths can exceed their shortest path length
-#program mapf(delta).
+#program mapf.
 
-% horizon and time points
-horizon(A,N+delta) :- sp_length(A,N).
-horizon(M) :- M = #max { N: horizon(A,N) }.
 time(A,1..N) :- horizon(A,N).
 time(1..N) :- horizon(N).
 
@@ -55,12 +64,20 @@ penalty(A,N) :- sp_length(A,N+1), N >= 0.
 penalty(A,T) :- sp_length(A,N), at(A,U,T), not goal(A,U), T >= N.
 penalty(A,T) :- penalty(A,T+1), T >= 0.
 
-% minimize sum of costs
+#program sum_of_costs.
+
+% minimize some of costs
 #minimize { 1,A,T: penalty(A,T) }.
+
+#program makespan.
+
+% minimize makespan
+#minimize { 1,T: penalty(_,T) }.
 
 #show.
 #show move/4.
 
-% this is due to a glitch in clingo
+% prevent warnings from clingo
+#defined penalty/2.
 #defined move/4.
 #defined reach/3.
