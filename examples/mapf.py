@@ -2,10 +2,10 @@
 A simple MAPF solver based on clingo.
 """
 
-import sys
-import timeit
-from collections import defaultdict
-from typing import Any, DefaultDict, List, Optional, Sequence, Tuple
+import sys #for command-line argument parsing
+import timeit #To measure execution time
+from collections import defaultdict #to create dictionaries with default values
+from typing import Any, DefaultDict, List, Optional, Sequence, Tuple #Provides type hints for better code clarity and type checking.
 
 from clingo.application import Application, ApplicationOptions, Flag, clingo_main
 from clingo.control import Control, Model

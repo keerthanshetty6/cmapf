@@ -12,6 +12,7 @@ horizon(horizon).
 horizon(A,N+delta) :- sp_length(A,N).
 horizon(M) :- M = #max { N: horizon(A,N) }.
 
+delta(D) :- delta = D.
 %%% the basic mapf encoding
 
 #program mapf.
@@ -76,7 +77,11 @@ penalty(A,T) :- penalty(A,T+1), T >= 0.
 #program sum_of_costs.
 
 % minimize some of costs
-#minimize { 1,A,T: penalty(A,T) }.
+bound(H+D) :- H = #sum{T,A : sp_length(A,T)}, delta(D).
+
+:- #sum{ 1,A,T : penalty(A,T) } > B, bound(B).
+
+
 
 %% the makespan objective
 #program makespan.
@@ -87,7 +92,7 @@ penalty(A,T) :- penalty(A,T+1), T >= 0.
 %%% meta statements
 
 #show.
-#show move/4.
+
 
 % prevent warnings from clingo
 #defined penalty/2.
