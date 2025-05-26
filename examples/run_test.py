@@ -7,7 +7,7 @@ python_executable = sys.executable  # Automatically detects the current Python e
 
 # Run clingo with the pathfinding model
 for i in range(0, upper_bound):
-    command = [python_executable, "MAPF_with_priority.py", f'--delta={i}', "priority.lp", "instances_old\\toy1.lp","--stats"]#,"--heuristic=domain"]
+    command = [python_executable, "MAPF_with_priority.py", f'--delta={i}',"test.lp","--heuristic=domain","--stats"]#, "priority.lp", "instances_old\\toy1.lp","--stats"]#,"--heuristic=domain"]
     start = timeit.default_timer()
     result = subprocess.run(command, capture_output=True, text=True)
     end = timeit.default_timer()

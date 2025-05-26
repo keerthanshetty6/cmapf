@@ -1,6 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import re
+from collections import defaultdict, Counter
 
 def read_from_file(file_path):
     with open(file_path, 'r') as file:
@@ -10,7 +11,7 @@ def parse_input(input_data):
     """
     Parse the input file generated to extract vertices, edges, and agent info.
     """
-    vertices: list[tuple[int, int]] = []  # List of (x, y) coordinates
+    #vertices: list[tuple[int, int]] = []  # List of (x, y) coordinates
     edges: list[tuple[tuple[int, int], tuple[int, int]]] = []  # List of ((x1, y1), (x2, y2)) edges
     agents: dict[int, dict[str, tuple[int, int] | None]] = {}  # Agent ID -> {'start': (x, y), 'goal': (x, y) }
 
@@ -20,8 +21,9 @@ def parse_input(input_data):
     start_pattern = re.compile(r"start\((\d+),\((\d+),(\d+)\)\)\.")
     goal_pattern = re.compile(r"goal\((\d+),\((\d+),(\d+)\)\)\.")
 
-    # Parse vertices
-    vertices = [(int(x), int(y)) for x, y in vertex_pattern.findall(input_data)]
+    # Parse and ensure unique vertices
+    vertex_set = set((int(x), int(y)) for x, y in vertex_pattern.findall(input_data))
+    vertices = list(vertex_set)  # keep for order/reference
 
     # Parse agents, starts, and goals
     for agent_id in agent_pattern.findall(input_data):
@@ -34,30 +36,39 @@ def parse_input(input_data):
         agents[int(agent_id)]['goal'] = (int(x), int(y))
 
     # Generate edges based on |X-X'| + |Y-Y'| = 1
-    for (x, y) in vertices:
-        for (x_prime, y_prime) in vertices:
-            if abs(x - x_prime) + abs(y - y_prime) == 1:  # Manhattan distance = 1
-                edges.append(((x, y), (x_prime, y_prime)))
+    for x, y in vertex_set:
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            neighbor = (x + dx, y + dy)
+            if neighbor in vertex_set:
+                edges.append(((x, y), neighbor))
 
     return vertices, edges, agents
 
-def build_graph(vertices, edges, agents):
-    """
-    Build a NetworkX graph using the parsed data.
-    """
+def build_graph(vertices, edges, agents=None):
     G = nx.Graph()
     G.add_nodes_from(vertices)
     G.add_edges_from(edges)
 
-    #Add agent information as node attributes
-    for agent_id, data in agents.items():
-        if data['start'] is not None:
-            G.nodes[data['start']]['agent_start'] = agent_id
-        if data['goal'] is not None:
-            G.nodes[data['goal']]['agent_goal'] = agent_id
+    if agents:
+        for agent_id, data in agents.items():
+            if data['start']:
+                G.nodes[data['start']]['agent_start'] = agent_id
+            if data['goal']:
+                G.nodes[data['goal']]['agent_goal'] = agent_id
 
     return G
 
+#get k shortest paths between start and goal nodes
+def k_shortest_paths(G, start, goal, k=5):
+    """
+    Returns up to k equal-cost shortest paths using NetworkX.
+    These are all optimal paths, not longer alternatives.
+    """
+    try:
+        return list(nx.all_shortest_paths(G, start, goal))[:k]
+    except:
+        return []
+    
 def calculate_shortest_path(G, agents):
     """
     Compute the shortest path length for each agent.
@@ -154,7 +165,7 @@ def visualize_graph(G, agents):
 input_data = read_from_file("instances\Processed\empty-8-8-random\empty-8-8-random-1\empty-8-8-random-1_32.lp")
 
 vertices, edges, agents = parse_input(input_data)
-G = build_graph(vertices, edges, agents)
+G = build_graph(vertices, edges) #agents not required for graph construction
 shortest_paths_num = calculate_priority_by_paths(G, agents)
 #deg_start, deg_goal, start_bw, goal_bw, start_cl, goal_cl = calculate_graph_metrics(G, agents)
 visualize_graph(G, agents)

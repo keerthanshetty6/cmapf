@@ -1,50 +1,574 @@
-2025-01-30 15:14:14,129: Processing file: empty-8-8-random-1 with No Heuristics
-2025-01-30 15:14:14,308: Load Time:  0.0023553 seconds
-2025-01-30 15:14:14,308: Ground Instance Time:  0.0026786 seconds
-2025-01-30 15:14:14,308: Extract Problem Time:  0.0001266 seconds
-2025-01-30 15:14:14,308: Reachable Time:  0.0004309 seconds
-2025-01-30 15:14:14,309: Ground Encoding Time:  0.0043606 seconds
-2025-01-30 15:14:14,309: Solve Encoding Time:  0.0026910 seconds
-2025-01-30 15:14:14,309: delta : 0, time : 0.18 (solution found)
-2025-01-30 15:14:14,504: Load Time:  0.0029545 seconds
-2025-01-30 15:14:14,504: Ground Instance Time:  0.0026506 seconds
-2025-01-30 15:14:14,504: Extract Problem Time:  0.0001463 seconds
-2025-01-30 15:14:14,505: Reachable Time:  0.0007163 seconds
-2025-01-30 15:14:14,505: Ground Encoding Time:  0.0069664 seconds
-2025-01-30 15:14:14,505: Solve Encoding Time:  0.0049983 seconds
-2025-01-30 15:14:14,506: delta : 0, time : 0.20 (solution found)
-2025-01-30 15:14:14,708: Load Time:  0.0031072 seconds
-2025-01-30 15:14:14,709: Ground Instance Time:  0.0038127 seconds
-2025-01-30 15:14:14,709: Extract Problem Time:  0.0001377 seconds
-2025-01-30 15:14:14,710: Reachable Time:  0.0008962 seconds
-2025-01-30 15:14:14,710: Ground Encoding Time:  0.0080829 seconds
-2025-01-30 15:14:14,710: Solve Encoding Time:  0.0061405 seconds
-2025-01-30 15:14:14,711: delta : 0, time : 0.20 (solution found)
-2025-01-30 15:14:16,026: Load Time:  0.0034102 seconds
-2025-01-30 15:14:16,026: Ground Instance Time:  0.0030443 seconds
-2025-01-30 15:14:16,027: Extract Problem Time:  0.0001527 seconds
-2025-01-30 15:14:16,027: Reachable Time:  0.0033214 seconds
-2025-01-30 15:14:16,027: Ground Encoding Time:  0.1007161 seconds
-2025-01-30 15:14:16,028: Solve Encoding Time:  0.0435221 seconds
-2025-01-30 15:14:16,028: delta : 4, time : 1.32 (solution found)
-2025-01-30 15:14:21,010: Load Time:  0.0061525 seconds
-2025-01-30 15:14:21,011: Ground Instance Time:  0.0050417 seconds
-2025-01-30 15:14:21,011: Extract Problem Time:  0.0002481 seconds
-2025-01-30 15:14:21,012: Reachable Time:  0.0122699 seconds
-2025-01-30 15:14:21,012: Ground Encoding Time:  0.5089619 seconds
-2025-01-30 15:14:21,013: Solve Encoding Time:  0.4401433 seconds
-2025-01-30 15:14:21,013: delta : 8, time : 4.98 (solution found)
-2025-01-30 15:18:43,554: Load Time:  0.0034515 seconds
-2025-01-30 15:18:43,555: Ground Instance Time:  0.0030326 seconds
-2025-01-30 15:18:43,556: Extract Problem Time:  0.0001598 seconds
-2025-01-30 15:18:43,556: Reachable Time:  0.0817866 seconds
-2025-01-30 15:18:43,557: Ground Encoding Time:  2.8769727 seconds
-2025-01-30 15:18:43,557: Solve Encoding Time:  60.5870817 seconds
-2025-01-30 15:18:43,557: delta : 22, time : 262.54 (solution found)
-2025-01-30 15:38:23,723: Load Time:  0.0077778 seconds
-2025-01-30 15:38:23,723: Ground Instance Time:  0.0057203 seconds
-2025-01-30 15:38:23,724: Extract Problem Time:  0.0003361 seconds
-2025-01-30 15:38:23,724: Reachable Time:  0.1266535 seconds
-2025-01-30 15:38:23,724: Ground Encoding Time:  4.5415024 seconds
-2025-01-30 15:38:23,725: Solve Encoding Time:  42.9917187 seconds
-2025-01-30 15:38:23,725: delta : 24, time : 1180.17 (solution found)
+Processing file: empty-32-32-condensed-0 with No Heuristics
+Load Time:  0.0337898 seconds
+Ground Instance Time:  0.1274773 seconds
+Extract Problem Time:  0.0013161 seconds
+Reachable Time:  0.0031353 seconds
+Ground Encoding Time:  0.0074193 seconds
+Solve Encoding Time:  0.0062327 seconds
+delta : 0, time : 0.57 (solution found)
+Load Time:  0.0125191 seconds
+Ground Instance Time:  0.1045371 seconds
+Extract Problem Time:  0.0012120 seconds
+Reachable Time:  0.0039190 seconds
+Ground Encoding Time:  0.0079822 seconds
+Solve Encoding Time:  0.0044890 seconds
+delta : 0, time : 0.31 (solution found)
+Load Time:  0.0127518 seconds
+Ground Instance Time:  0.0916406 seconds
+Extract Problem Time:  0.0010189 seconds
+Reachable Time:  0.0048208 seconds
+Ground Encoding Time:  0.0120929 seconds
+Solve Encoding Time:  0.0081216 seconds
+delta : 0, time : 0.33 (solution found)
+Load Time:  0.0134226 seconds
+Ground Instance Time:  0.1159592 seconds
+Extract Problem Time:  0.0012982 seconds
+Reachable Time:  0.0070753 seconds
+Ground Encoding Time:  0.0131029 seconds
+Solve Encoding Time:  0.0082523 seconds
+delta : 0, time : 0.35 (solution found)
+Load Time:  0.0149187 seconds
+Ground Instance Time:  0.1068373 seconds
+Extract Problem Time:  0.0011283 seconds
+Reachable Time:  0.0078780 seconds
+Ground Encoding Time:  0.0170124 seconds
+Solve Encoding Time:  0.0123672 seconds
+delta : 0, time : 0.37 (solution found)
+Load Time:  0.0141435 seconds
+Ground Instance Time:  0.1181664 seconds
+Extract Problem Time:  0.0012385 seconds
+Reachable Time:  0.0113716 seconds
+Ground Encoding Time:  0.0207871 seconds
+Solve Encoding Time:  0.0035928 seconds
+Load Time:  0.0124497 seconds
+Ground Instance Time:  0.0957235 seconds
+Extract Problem Time:  0.0010433 seconds
+Reachable Time:  0.0103445 seconds
+Ground Encoding Time:  0.0471870 seconds
+Solve Encoding Time:  0.0167838 seconds
+Load Time:  0.0119064 seconds
+Ground Instance Time:  0.1115881 seconds
+Extract Problem Time:  0.0011755 seconds
+Reachable Time:  0.0136587 seconds
+Ground Encoding Time:  0.0952849 seconds
+Solve Encoding Time:  0.0578529 seconds
+delta : 2, time : 1.22 (solution found)
+Load Time:  0.0130726 seconds
+Ground Instance Time:  0.0988734 seconds
+Extract Problem Time:  0.0010967 seconds
+Reachable Time:  0.0121496 seconds
+Ground Encoding Time:  0.0213658 seconds
+Solve Encoding Time:  0.0031796 seconds
+Load Time:  0.0115820 seconds
+Ground Instance Time:  0.0936869 seconds
+Extract Problem Time:  0.0010748 seconds
+Reachable Time:  0.0118291 seconds
+Ground Encoding Time:  0.0466162 seconds
+Solve Encoding Time:  0.0125633 seconds
+Load Time:  0.0120428 seconds
+Ground Instance Time:  0.1030837 seconds
+Extract Problem Time:  0.0011770 seconds
+Reachable Time:  0.0151692 seconds
+Ground Encoding Time:  0.1221842 seconds
+Solve Encoding Time:  0.0475028 seconds
+Load Time:  0.0140768 seconds
+Ground Instance Time:  0.1164076 seconds
+Extract Problem Time:  0.0010550 seconds
+Reachable Time:  0.0147866 seconds
+Ground Encoding Time:  0.2157938 seconds
+Solve Encoding Time:  0.1280518 seconds
+delta : 3, time : 1.87 (solution found)
+Load Time:  0.0143569 seconds
+Ground Instance Time:  0.1183520 seconds
+Extract Problem Time:  0.0015092 seconds
+Reachable Time:  0.0179627 seconds
+Ground Encoding Time:  0.0399896 seconds
+Solve Encoding Time:  0.0049768 seconds
+Load Time:  0.0148570 seconds
+Ground Instance Time:  0.1192165 seconds
+Extract Problem Time:  0.0013336 seconds
+Reachable Time:  0.0172458 seconds
+Ground Encoding Time:  0.0786002 seconds
+Solve Encoding Time:  0.0194691 seconds
+Load Time:  0.0141370 seconds
+Ground Instance Time:  0.1135746 seconds
+Extract Problem Time:  0.0012504 seconds
+Reachable Time:  0.0185628 seconds
+Ground Encoding Time:  0.1557329 seconds
+Solve Encoding Time:  0.0545777 seconds
+Load Time:  0.0126092 seconds
+Ground Instance Time:  0.0975820 seconds
+Extract Problem Time:  0.0010620 seconds
+Reachable Time:  0.0177271 seconds
+Ground Encoding Time:  0.2418241 seconds
+Solve Encoding Time:  0.1134874 seconds
+Load Time:  0.0126232 seconds
+Ground Instance Time:  0.0992856 seconds
+Extract Problem Time:  0.0012456 seconds
+Reachable Time:  0.0245704 seconds
+Ground Encoding Time:  0.4325206 seconds
+Solve Encoding Time:  0.2263040 seconds
+delta : 4, time : 3.17 (solution found)
+Load Time:  0.0138659 seconds
+Ground Instance Time:  0.1133943 seconds
+Extract Problem Time:  0.0014099 seconds
+Reachable Time:  0.0186605 seconds
+Ground Encoding Time:  0.0339149 seconds
+Solve Encoding Time:  0.0046010 seconds
+Load Time:  0.0139379 seconds
+Ground Instance Time:  0.1287631 seconds
+Extract Problem Time:  0.0014141 seconds
+Reachable Time:  0.0210131 seconds
+Ground Encoding Time:  0.0625717 seconds
+Solve Encoding Time:  0.0184294 seconds
+Load Time:  0.0133401 seconds
+Ground Instance Time:  0.0969799 seconds
+Extract Problem Time:  0.0010864 seconds
+Reachable Time:  0.0182716 seconds
+Ground Encoding Time:  0.1550682 seconds
+Solve Encoding Time:  0.0660207 seconds
+Load Time:  0.0157432 seconds
+Ground Instance Time:  0.1242442 seconds
+Extract Problem Time:  0.0014000 seconds
+Reachable Time:  0.0234303 seconds
+Ground Encoding Time:  0.2951445 seconds
+Solve Encoding Time:  0.1302886 seconds
+Load Time:  0.0142990 seconds
+Ground Instance Time:  0.1028609 seconds
+Extract Problem Time:  0.0009876 seconds
+Reachable Time:  0.0245060 seconds
+Ground Encoding Time:  0.4988417 seconds
+Solve Encoding Time:  0.4245255 seconds
+Load Time:  0.0173910 seconds
+Ground Instance Time:  0.1665039 seconds
+Extract Problem Time:  0.0037338 seconds
+Reachable Time:  0.1211149 seconds
+Ground Encoding Time:  1.3782253 seconds
+Solve Encoding Time:  0.3700213 seconds
+Load Time:  0.0141080 seconds
+Ground Instance Time:  0.1111906 seconds
+Extract Problem Time:  0.0009899 seconds
+Reachable Time:  0.0307254 seconds
+Ground Encoding Time:  1.0083898 seconds
+Solve Encoding Time:  0.5918506 seconds
+Load Time:  0.0135290 seconds
+Ground Instance Time:  0.0942846 seconds
+Extract Problem Time:  0.0010457 seconds
+Reachable Time:  0.0334711 seconds
+Ground Encoding Time:  1.2806908 seconds
+Solve Encoding Time:  0.5906147 seconds
+delta : 7, time : 10.22 (solution found)
+Load Time:  0.0136642 seconds
+Ground Instance Time:  0.0929141 seconds
+Extract Problem Time:  0.0010071 seconds
+Reachable Time:  0.0154176 seconds
+Ground Encoding Time:  0.0302925 seconds
+Solve Encoding Time:  0.0041564 seconds
+Load Time:  0.0145058 seconds
+Ground Instance Time:  0.0947549 seconds
+Extract Problem Time:  0.0010736 seconds
+Reachable Time:  0.0189404 seconds
+Ground Encoding Time:  0.0700311 seconds
+Solve Encoding Time:  0.0224932 seconds
+Load Time:  0.0142763 seconds
+Ground Instance Time:  0.1040239 seconds
+Extract Problem Time:  0.0010401 seconds
+Reachable Time:  0.0181979 seconds
+Ground Encoding Time:  0.1741335 seconds
+Solve Encoding Time:  0.0823914 seconds
+Load Time:  0.0153510 seconds
+Ground Instance Time:  0.1285267 seconds
+Extract Problem Time:  0.0014294 seconds
+Reachable Time:  0.0311517 seconds
+Ground Encoding Time:  0.3451042 seconds
+Solve Encoding Time:  0.1513082 seconds
+Load Time:  0.0143621 seconds
+Ground Instance Time:  0.0948501 seconds
+Extract Problem Time:  0.0011593 seconds
+Reachable Time:  0.0286624 seconds
+Ground Encoding Time:  0.6811495 seconds
+Solve Encoding Time:  0.3979449 seconds
+Load Time:  0.0125529 seconds
+Ground Instance Time:  0.1192396 seconds
+Extract Problem Time:  0.0016897 seconds
+Reachable Time:  0.0531218 seconds
+Ground Encoding Time:  0.8192164 seconds
+Solve Encoding Time:  0.4573168 seconds
+Load Time:  0.0177343 seconds
+Ground Instance Time:  0.1354406 seconds
+Extract Problem Time:  0.0013567 seconds
+Reachable Time:  0.0405575 seconds
+Ground Encoding Time:  1.2579774 seconds
+Solve Encoding Time:  0.5743661 seconds
+Load Time:  0.0161883 seconds
+Ground Instance Time:  0.1395941 seconds
+Extract Problem Time:  0.0015806 seconds
+Reachable Time:  0.0459063 seconds
+Ground Encoding Time:  1.5991672 seconds
+Solve Encoding Time:  0.7815801 seconds
+Load Time:  0.0164613 seconds
+Ground Instance Time:  0.1212422 seconds
+Extract Problem Time:  0.0012987 seconds
+Reachable Time:  0.0604155 seconds
+Ground Encoding Time:  2.1338914 seconds
+Solve Encoding Time:  1.7762954 seconds
+Load Time:  0.0143361 seconds
+Ground Instance Time:  0.0939477 seconds
+Extract Problem Time:  0.0010510 seconds
+Reachable Time:  0.0510169 seconds
+Ground Encoding Time:  2.5286435 seconds
+Solve Encoding Time:  3.7014963 seconds
+Load Time:  0.0154600 seconds
+Ground Instance Time:  0.1116006 seconds
+Extract Problem Time:  0.0011029 seconds
+Reachable Time:  0.0627998 seconds
+Ground Encoding Time:  3.3177478 seconds
+Solve Encoding Time:  6.1513340 seconds
+delta : 10, time : 32.03 (solution found)
+Load Time:  0.0158086 seconds
+Ground Instance Time:  0.1228350 seconds
+Extract Problem Time:  0.0014942 seconds
+Reachable Time:  0.0240857 seconds
+Ground Encoding Time:  0.0448345 seconds
+Solve Encoding Time:  0.0046832 seconds
+Load Time:  0.0123583 seconds
+Ground Instance Time:  0.1194135 seconds
+Extract Problem Time:  0.0013920 seconds
+Reachable Time:  0.0261800 seconds
+Ground Encoding Time:  0.0823993 seconds
+Solve Encoding Time:  0.0220799 seconds
+Load Time:  0.0141572 seconds
+Ground Instance Time:  0.1264817 seconds
+Extract Problem Time:  0.0013992 seconds
+Reachable Time:  0.0286929 seconds
+Ground Encoding Time:  0.2063852 seconds
+Solve Encoding Time:  0.1120360 seconds
+Load Time:  0.0147215 seconds
+Ground Instance Time:  0.1265375 seconds
+Extract Problem Time:  0.0014623 seconds
+Reachable Time:  0.0412022 seconds
+Ground Encoding Time:  0.4242502 seconds
+Solve Encoding Time:  0.1823900 seconds
+Load Time:  0.0127175 seconds
+Ground Instance Time:  0.1036419 seconds
+Extract Problem Time:  0.0012919 seconds
+Reachable Time:  0.0393059 seconds
+Ground Encoding Time:  0.6688933 seconds
+Solve Encoding Time:  0.3822487 seconds
+Load Time:  0.0140802 seconds
+Ground Instance Time:  0.1317493 seconds
+Extract Problem Time:  0.0014144 seconds
+Reachable Time:  0.0417091 seconds
+Ground Encoding Time:  0.8717887 seconds
+Solve Encoding Time:  0.4743723 seconds
+Load Time:  0.0144907 seconds
+Ground Instance Time:  0.1258168 seconds
+Extract Problem Time:  0.0016827 seconds
+Reachable Time:  0.0489556 seconds
+Ground Encoding Time:  1.5561260 seconds
+Solve Encoding Time:  0.7224395 seconds
+Load Time:  0.0148462 seconds
+Ground Instance Time:  0.1352865 seconds
+Extract Problem Time:  0.0014739 seconds
+Reachable Time:  0.0526004 seconds
+Ground Encoding Time:  2.0545449 seconds
+Solve Encoding Time:  0.9690831 seconds
+Load Time:  0.0143827 seconds
+Ground Instance Time:  0.1115806 seconds
+Extract Problem Time:  0.0014471 seconds
+Reachable Time:  0.0643353 seconds
+Ground Encoding Time:  2.3582534 seconds
+Solve Encoding Time:  1.8551292 seconds
+Load Time:  0.0137801 seconds
+Ground Instance Time:  0.1159038 seconds
+Extract Problem Time:  0.0014043 seconds
+Reachable Time:  0.0737572 seconds
+Ground Encoding Time:  2.8792128 seconds
+Solve Encoding Time:  3.7226735 seconds
+Load Time:  0.0132415 seconds
+Ground Instance Time:  0.0943494 seconds
+Extract Problem Time:  0.0010265 seconds
+Reachable Time:  0.0640321 seconds
+Ground Encoding Time:  3.8619952 seconds
+Solve Encoding Time:  5.3595486 seconds
+delta : 10, time : 34.00 (solution found)
+Load Time:  0.0167094 seconds
+Ground Instance Time:  0.0893793 seconds
+Extract Problem Time:  0.0009552 seconds
+Reachable Time:  0.0175693 seconds
+Ground Encoding Time:  0.0309942 seconds
+Solve Encoding Time:  0.0040259 seconds
+Load Time:  0.0137670 seconds
+Ground Instance Time:  0.1082645 seconds
+Extract Problem Time:  0.0012831 seconds
+Reachable Time:  0.0252217 seconds
+Ground Encoding Time:  0.0887445 seconds
+Solve Encoding Time:  0.0244334 seconds
+Load Time:  0.0145074 seconds
+Ground Instance Time:  0.1009086 seconds
+Extract Problem Time:  0.0009911 seconds
+Reachable Time:  0.0216995 seconds
+Ground Encoding Time:  0.2016783 seconds
+Solve Encoding Time:  0.1054010 seconds
+Load Time:  0.0152092 seconds
+Ground Instance Time:  0.1026986 seconds
+Extract Problem Time:  0.0011707 seconds
+Reachable Time:  0.0284361 seconds
+Ground Encoding Time:  0.3939155 seconds
+Solve Encoding Time:  0.1452599 seconds
+Load Time:  0.0147408 seconds
+Ground Instance Time:  0.1127525 seconds
+Extract Problem Time:  0.0011601 seconds
+Reachable Time:  0.0327125 seconds
+Ground Encoding Time:  0.7005661 seconds
+Solve Encoding Time:  0.3744764 seconds
+Load Time:  0.0150470 seconds
+Ground Instance Time:  0.0987049 seconds
+Extract Problem Time:  0.0008809 seconds
+Reachable Time:  0.0307159 seconds
+Ground Encoding Time:  0.9193277 seconds
+Solve Encoding Time:  0.4115991 seconds
+Load Time:  0.0139830 seconds
+Ground Instance Time:  0.0961481 seconds
+Extract Problem Time:  0.0010700 seconds
+Reachable Time:  0.0378331 seconds
+Ground Encoding Time:  1.4334481 seconds
+Solve Encoding Time:  0.6209798 seconds
+Load Time:  0.0146876 seconds
+Ground Instance Time:  0.1102536 seconds
+Extract Problem Time:  0.0011710 seconds
+Reachable Time:  0.0584690 seconds
+Ground Encoding Time:  2.3461224 seconds
+Solve Encoding Time:  1.0143114 seconds
+Load Time:  0.0138999 seconds
+Ground Instance Time:  0.0946500 seconds
+Extract Problem Time:  0.0015331 seconds
+Reachable Time:  0.0520359 seconds
+Ground Encoding Time:  2.3445222 seconds
+Solve Encoding Time:  1.6208212 seconds
+Load Time:  0.0143919 seconds
+Ground Instance Time:  0.1055688 seconds
+Extract Problem Time:  0.0011075 seconds
+Reachable Time:  0.0910730 seconds
+Ground Encoding Time:  3.1752344 seconds
+Solve Encoding Time:  3.6134639 seconds
+Load Time:  0.0173049 seconds
+Ground Instance Time:  0.1153548 seconds
+Extract Problem Time:  0.0010379 seconds
+Reachable Time:  0.0917752 seconds
+Ground Encoding Time:  3.9629888 seconds
+Solve Encoding Time:  5.4795663 seconds
+Load Time:  0.0139385 seconds
+Ground Instance Time:  0.1072837 seconds
+Extract Problem Time:  0.0010117 seconds
+Reachable Time:  0.0936403 seconds
+Ground Encoding Time:  5.0516149 seconds
+Solve Encoding Time:  12.7440746 seconds
+Load Time:  0.0169516 seconds
+Ground Instance Time:  0.1489603 seconds
+Extract Problem Time:  0.0012832 seconds
+Reachable Time:  0.1169836 seconds
+Ground Encoding Time:  6.4923747 seconds
+Solve Encoding Time:  32.3042828 seconds
+Load Time:  0.0150818 seconds
+Ground Instance Time:  0.1165958 seconds
+Extract Problem Time:  0.0010475 seconds
+Reachable Time:  0.1187126 seconds
+Ground Encoding Time:  8.7580991 seconds
+Solve Encoding Time:  78.1831652 seconds
+Load Time:  0.0112130 seconds
+Ground Instance Time:  0.0855353 seconds
+Extract Problem Time:  0.0009911 seconds
+Reachable Time:  0.1184236 seconds
+Ground Encoding Time:  8.2155921 seconds
+Solve Encoding Time:  72.4666113 seconds
+delta : 14, time : 262.26 (solution found)
+Load Time:  0.0153131 seconds
+Ground Instance Time:  0.1456377 seconds
+Extract Problem Time:  0.0014629 seconds
+Reachable Time:  0.0342308 seconds
+Ground Encoding Time:  0.0629593 seconds
+Solve Encoding Time:  0.0076176 seconds
+Load Time:  0.0193708 seconds
+Ground Instance Time:  0.1374124 seconds
+Extract Problem Time:  0.0015404 seconds
+Reachable Time:  0.0286195 seconds
+Ground Encoding Time:  0.1054376 seconds
+Solve Encoding Time:  0.0339401 seconds
+Load Time:  0.0156150 seconds
+Ground Instance Time:  0.1693617 seconds
+Extract Problem Time:  0.0014218 seconds
+Reachable Time:  0.0324964 seconds
+Ground Encoding Time:  0.2935142 seconds
+Solve Encoding Time:  0.1121379 seconds
+Load Time:  0.0148553 seconds
+Ground Instance Time:  0.1249746 seconds
+Extract Problem Time:  0.0012321 seconds
+Reachable Time:  0.0392200 seconds
+Ground Encoding Time:  0.4508416 seconds
+Solve Encoding Time:  0.1567966 seconds
+Load Time:  0.0172038 seconds
+Ground Instance Time:  0.1250283 seconds
+Extract Problem Time:  0.0012195 seconds
+Reachable Time:  0.0528409 seconds
+Ground Encoding Time:  1.3726354 seconds
+Solve Encoding Time:  0.5070535 seconds
+Load Time:  0.0170730 seconds
+Ground Instance Time:  0.1356470 seconds
+Extract Problem Time:  0.0013546 seconds
+Reachable Time:  0.0540050 seconds
+Ground Encoding Time:  1.3432543 seconds
+Solve Encoding Time:  0.6164258 seconds
+Load Time:  0.0203427 seconds
+Ground Instance Time:  0.2098677 seconds
+Extract Problem Time:  0.0014796 seconds
+Reachable Time:  0.0835678 seconds
+Ground Encoding Time:  1.9942571 seconds
+Solve Encoding Time:  0.7436865 seconds
+Load Time:  0.0154249 seconds
+Ground Instance Time:  0.1323022 seconds
+Extract Problem Time:  0.0015708 seconds
+Reachable Time:  0.0713264 seconds
+Ground Encoding Time:  2.5002535 seconds
+Solve Encoding Time:  1.2860113 seconds
+Load Time:  0.0168464 seconds
+Ground Instance Time:  0.1525275 seconds
+Extract Problem Time:  0.0022038 seconds
+Reachable Time:  0.0927049 seconds
+Ground Encoding Time:  3.1657734 seconds
+Solve Encoding Time:  2.1777914 seconds
+Load Time:  0.0190445 seconds
+Ground Instance Time:  0.1462839 seconds
+Extract Problem Time:  0.0020298 seconds
+Reachable Time:  0.1036534 seconds
+Ground Encoding Time:  5.0751812 seconds
+Solve Encoding Time:  5.2122988 seconds
+Load Time:  0.0150345 seconds
+Ground Instance Time:  0.1218931 seconds
+Extract Problem Time:  0.0014144 seconds
+Reachable Time:  0.1226059 seconds
+Ground Encoding Time:  5.0826037 seconds
+Solve Encoding Time:  8.3255349 seconds
+Load Time:  0.0169156 seconds
+Ground Instance Time:  0.1336144 seconds
+Extract Problem Time:  0.0014610 seconds
+Reachable Time:  0.1239562 seconds
+Ground Encoding Time:  6.1854232 seconds
+Solve Encoding Time:  18.5255581 seconds
+Load Time:  0.0143386 seconds
+Ground Instance Time:  0.1358134 seconds
+Extract Problem Time:  0.0019901 seconds
+Reachable Time:  0.2024435 seconds
+Ground Encoding Time:  8.4771566 seconds
+Solve Encoding Time:  26.0367755 seconds
+Load Time:  0.0146262 seconds
+Ground Instance Time:  0.0914773 seconds
+Extract Problem Time:  0.0010083 seconds
+Reachable Time:  0.1217288 seconds
+Ground Encoding Time:  7.4483918 seconds
+Solve Encoding Time:  90.7580345 seconds
+Load Time:  0.0121122 seconds
+Ground Instance Time:  0.1007511 seconds
+Extract Problem Time:  0.0011271 seconds
+Reachable Time:  0.1571443 seconds
+Ground Encoding Time:  21.0711729 seconds
+Solve Encoding Time:  204.5323232 seconds
+Load Time:  0.0164460 seconds
+Ground Instance Time:  0.1340675 seconds
+Extract Problem Time:  0.0014451 seconds
+Reachable Time:  0.2342975 seconds
+Ground Encoding Time:  13.5946242 seconds
+Solve Encoding Time:  234.6095772 seconds
+delta : 15, time : 684.42 (solution found)
+Load Time:  0.0136414 seconds
+Ground Instance Time:  0.0947788 seconds
+Extract Problem Time:  0.0009117 seconds
+Reachable Time:  0.0216540 seconds
+Ground Encoding Time:  0.0397238 seconds
+Solve Encoding Time:  0.0055601 seconds
+Load Time:  0.0106130 seconds
+Ground Instance Time:  0.0816708 seconds
+Extract Problem Time:  0.0009284 seconds
+Reachable Time:  0.0211858 seconds
+Ground Encoding Time:  0.0730135 seconds
+Solve Encoding Time:  0.0218027 seconds
+Load Time:  0.0115963 seconds
+Ground Instance Time:  0.0835052 seconds
+Extract Problem Time:  0.0008586 seconds
+Reachable Time:  0.0251391 seconds
+Ground Encoding Time:  0.2073989 seconds
+Solve Encoding Time:  0.0755860 seconds
+Load Time:  0.0143743 seconds
+Ground Instance Time:  0.0845569 seconds
+Extract Problem Time:  0.0009815 seconds
+Reachable Time:  0.0276761 seconds
+Ground Encoding Time:  0.3859147 seconds
+Solve Encoding Time:  0.1362198 seconds
+Load Time:  0.0135097 seconds
+Ground Instance Time:  0.0989022 seconds
+Extract Problem Time:  0.0010627 seconds
+Reachable Time:  0.0361217 seconds
+Ground Encoding Time:  0.6519306 seconds
+Solve Encoding Time:  0.3399866 seconds
+Load Time:  0.0114598 seconds
+Ground Instance Time:  0.0904724 seconds
+Extract Problem Time:  0.0011672 seconds
+Reachable Time:  0.0434386 seconds
+Ground Encoding Time:  0.9211365 seconds
+Solve Encoding Time:  0.4494366 seconds
+Load Time:  0.0135487 seconds
+Ground Instance Time:  0.0943617 seconds
+Extract Problem Time:  0.0011504 seconds
+Reachable Time:  0.0449863 seconds
+Ground Encoding Time:  1.3865241 seconds
+Solve Encoding Time:  0.5785458 seconds
+Load Time:  0.0115997 seconds
+Ground Instance Time:  0.1010148 seconds
+Extract Problem Time:  0.0012225 seconds
+Reachable Time:  0.0527996 seconds
+Ground Encoding Time:  1.8485848 seconds
+Solve Encoding Time:  0.9690783 seconds
+Load Time:  0.0109866 seconds
+Ground Instance Time:  0.0872712 seconds
+Extract Problem Time:  0.0009461 seconds
+Reachable Time:  0.0577096 seconds
+Ground Encoding Time:  2.5268154 seconds
+Solve Encoding Time:  1.7092022 seconds
+Load Time:  0.0147685 seconds
+Ground Instance Time:  0.1113061 seconds
+Extract Problem Time:  0.0012492 seconds
+Reachable Time:  0.0714888 seconds
+Ground Encoding Time:  3.4169616 seconds
+Solve Encoding Time:  2.6154862 seconds
+Load Time:  0.0154504 seconds
+Ground Instance Time:  0.1160186 seconds
+Extract Problem Time:  0.0011807 seconds
+Reachable Time:  0.1098991 seconds
+Ground Encoding Time:  4.5151080 seconds
+Solve Encoding Time:  8.0803323 seconds
+Load Time:  0.0113309 seconds
+Ground Instance Time:  0.0905732 seconds
+Extract Problem Time:  0.0009316 seconds
+Reachable Time:  0.0955628 seconds
+Ground Encoding Time:  5.5374383 seconds
+Solve Encoding Time:  14.2755366 seconds
+Load Time:  0.0146162 seconds
+Ground Instance Time:  0.1095998 seconds
+Extract Problem Time:  0.0010914 seconds
+Reachable Time:  0.1296313 seconds
+Ground Encoding Time:  7.1912436 seconds
+Solve Encoding Time:  27.6292005 seconds
+Load Time:  0.0110079 seconds
+Ground Instance Time:  0.0828781 seconds
+Extract Problem Time:  0.0009116 seconds
+Reachable Time:  0.1439258 seconds
+Ground Encoding Time:  8.7156870 seconds
+Solve Encoding Time:  85.7610984 seconds
+Load Time:  0.0143234 seconds
+Ground Instance Time:  0.1094754 seconds
+Extract Problem Time:  0.0011007 seconds
+Reachable Time:  0.1555590 seconds
+Ground Encoding Time:  10.4842078 seconds
+Solve Encoding Time:  159.2364585 seconds
+Timeout occurred after 300.02 seconds
+delta : 15, time : 658.96 (timeout)

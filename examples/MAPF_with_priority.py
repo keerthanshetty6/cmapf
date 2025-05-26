@@ -269,6 +269,7 @@ class PriorityMAPFApp(Application): #inherits from Application -> Clingo's base 
         """
         The main function of the application.
         """
+    
         problem = self._load(ctl, files)
         parts = self._prepare(ctl, problem)
         self._ground(ctl, parts)

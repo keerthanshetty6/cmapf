@@ -151,3 +151,4 @@ if __name__ == "__main__":
 
 
     #python extract_map.py '\instances\Empty\empty-8-8\empty-8-8.map' '\instances\Empty\empty-8-8\scen-random' '\instances\Processed\empty-8-8-random-1' 5 32
+    #python extract_map.py 'Instances\maps\empty-32-32.map' 'Instances\scenarios\empty-32-32' 'Instances\Processed\empty-32-32' 5 100

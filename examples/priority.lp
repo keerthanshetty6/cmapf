@@ -7,10 +7,10 @@ horizon(horizon).
 %% setup the sum of costs based encoding
 
 #program sum_of_costs(d).
-
-horizon(A,N+d) :- sp_length(A,N). %max per agent
+delta(D) :- D = d.
+horizon(A,N+D) :- sp_length(A,N),delta(D). %max per agent
 horizon(M) :- M = #max { N: horizon(A,N) }.
-delta(D) :- d = D.
+
 
 #program mapf.
 time(A,1..N) :- horizon(A,N).
@@ -28,18 +28,20 @@ at(A,U,T) :- at(A,U,T-1), not move(A,U,_,T),reach(A,U,T).
 %can only move from current position
 :- move(A,U,_,T), not at(A,U,T-1). 
 
-%only one agent can occupy vertex U at time T - no 2 agent start at the same vertex (vertex conflicts)
+%only one agent can occupy vertex U at time T - no 2 agent share the same vertex (vertex conflicts)
 :- {at(A,U,T)} > 1, vertex(U), time(T). 
 
 %swap constraints
-:- move(_,U,V,T), move(_,V,U,T),U!=V. 
+:- move(_,U,V,T), move(_,V,U,T), U<V.
 
 %follow constraints
 :- at(A,U,T), at(B,U,T+1), A!=B, m=fc. 
 
 % given a time agent A can be at only one vertex it , no need to have a at for higher time T 
-:- {at(A,U,T)} > 1, agent(A), time(T). 
+:- {at(A,U,T)} != 1, time(A,T). 
 
+%never at a non rechable position
+%:- at(A,V,T), not reach(A,V,T ).
 
 %check
 :- goal(A,U), horizon(A,T), not at(A,U,T).
@@ -56,15 +58,25 @@ bound(H+D) :- H = #sum{T,A : sp_length(A,T)}, delta(D).
 
 :- #sum{ 1,A,T : penalty(A,T) } > B, bound(B).
 
-
+#program makespan.
+% minimize makespan
+#minimize { 1,T: penalty(_,T) }.
 
 %#heuristic move(A,_,V,T) : priority(A,PA), priority(B,PB), move(B,_,V,T), A != B, PA > PB. [PA,level]
 %#heuristic move(A,_,V,T) : priority(A,PA), priority(B,PB), move(B,_,V,T),sp_length(A,TA),sp_length(B,TB), A != B, PA +TA > PB+TB. [PA+TA,level]
 %#heuristic move(A,_,V,T) : priority(A,P) . [P,level]
-%#heuristic move(A,_,V,T) : sp_length(A,TA),sp_length(B,TB), move(B,_,V,T), A != B, TA > TB. [TA,level]
+#heuristic move(A,_,V,T) : sp_length(A,TA),sp_length(B,TB), move(B,_,V,T), A != B, TA > TB. [TA,level]
+
+%:- move(A, _, U, T), at(B, U, T-1), priority(A, PA), priority(B, PB), PA > PB, not move(B, U, _, T).
+
+
 % Display
 
-#show penalty_summary/3.
+%#show bound/1.
+%#show delta/1.
+#show sp_length/2.
+
+
 
 #defined penalty/2.
 #defined move/4.
@@ -73,6 +85,7 @@ bound(H+D) :- H = #sum{T,A : sp_length(A,T)}, delta(D).
 #defined bound/1.
 #defined penalty_summary/3.
 #defined reach/3.
+#defined delta/1.
 
 priority(10,99).
 priority(15,99).
