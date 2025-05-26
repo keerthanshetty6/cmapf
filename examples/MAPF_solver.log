@@ -1,0 +1,50 @@
+2025-01-30 15:14:14,129: Processing file: empty-8-8-random-1 with No Heuristics
+2025-01-30 15:14:14,308: Load Time:  0.0023553 seconds
+2025-01-30 15:14:14,308: Ground Instance Time:  0.0026786 seconds
+2025-01-30 15:14:14,308: Extract Problem Time:  0.0001266 seconds
+2025-01-30 15:14:14,308: Reachable Time:  0.0004309 seconds
+2025-01-30 15:14:14,309: Ground Encoding Time:  0.0043606 seconds
+2025-01-30 15:14:14,309: Solve Encoding Time:  0.0026910 seconds
+2025-01-30 15:14:14,309: delta : 0, time : 0.18 (solution found)
+2025-01-30 15:14:14,504: Load Time:  0.0029545 seconds
+2025-01-30 15:14:14,504: Ground Instance Time:  0.0026506 seconds
+2025-01-30 15:14:14,504: Extract Problem Time:  0.0001463 seconds
+2025-01-30 15:14:14,505: Reachable Time:  0.0007163 seconds
+2025-01-30 15:14:14,505: Ground Encoding Time:  0.0069664 seconds
+2025-01-30 15:14:14,505: Solve Encoding Time:  0.0049983 seconds
+2025-01-30 15:14:14,506: delta : 0, time : 0.20 (solution found)
+2025-01-30 15:14:14,708: Load Time:  0.0031072 seconds
+2025-01-30 15:14:14,709: Ground Instance Time:  0.0038127 seconds
+2025-01-30 15:14:14,709: Extract Problem Time:  0.0001377 seconds
+2025-01-30 15:14:14,710: Reachable Time:  0.0008962 seconds
+2025-01-30 15:14:14,710: Ground Encoding Time:  0.0080829 seconds
+2025-01-30 15:14:14,710: Solve Encoding Time:  0.0061405 seconds
+2025-01-30 15:14:14,711: delta : 0, time : 0.20 (solution found)
+2025-01-30 15:14:16,026: Load Time:  0.0034102 seconds
+2025-01-30 15:14:16,026: Ground Instance Time:  0.0030443 seconds
+2025-01-30 15:14:16,027: Extract Problem Time:  0.0001527 seconds
+2025-01-30 15:14:16,027: Reachable Time:  0.0033214 seconds
+2025-01-30 15:14:16,027: Ground Encoding Time:  0.1007161 seconds
+2025-01-30 15:14:16,028: Solve Encoding Time:  0.0435221 seconds
+2025-01-30 15:14:16,028: delta : 4, time : 1.32 (solution found)
+2025-01-30 15:14:21,010: Load Time:  0.0061525 seconds
+2025-01-30 15:14:21,011: Ground Instance Time:  0.0050417 seconds
+2025-01-30 15:14:21,011: Extract Problem Time:  0.0002481 seconds
+2025-01-30 15:14:21,012: Reachable Time:  0.0122699 seconds
+2025-01-30 15:14:21,012: Ground Encoding Time:  0.5089619 seconds
+2025-01-30 15:14:21,013: Solve Encoding Time:  0.4401433 seconds
+2025-01-30 15:14:21,013: delta : 8, time : 4.98 (solution found)
+2025-01-30 15:18:43,554: Load Time:  0.0034515 seconds
+2025-01-30 15:18:43,555: Ground Instance Time:  0.0030326 seconds
+2025-01-30 15:18:43,556: Extract Problem Time:  0.0001598 seconds
+2025-01-30 15:18:43,556: Reachable Time:  0.0817866 seconds
+2025-01-30 15:18:43,557: Ground Encoding Time:  2.8769727 seconds
+2025-01-30 15:18:43,557: Solve Encoding Time:  60.5870817 seconds
+2025-01-30 15:18:43,557: delta : 22, time : 262.54 (solution found)
+2025-01-30 15:38:23,723: Load Time:  0.0077778 seconds
+2025-01-30 15:38:23,723: Ground Instance Time:  0.0057203 seconds
+2025-01-30 15:38:23,724: Extract Problem Time:  0.0003361 seconds
+2025-01-30 15:38:23,724: Reachable Time:  0.1266535 seconds
+2025-01-30 15:38:23,724: Ground Encoding Time:  4.5415024 seconds
+2025-01-30 15:38:23,725: Solve Encoding Time:  42.9917187 seconds
+2025-01-30 15:38:23,725: delta : 24, time : 1180.17 (solution found)

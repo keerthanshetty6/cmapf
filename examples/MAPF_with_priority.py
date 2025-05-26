@@ -230,21 +230,24 @@ class PriorityMAPFApp(Application): #inherits from Application -> Clingo's base 
                 bck.add_rule([])
         self._stats["Time"]["Ground Encoding"] = timeit.default_timer() - start
 
-    def _solve(self, ctl: Control) -> None:
+    def _solve(self, ctl: Control):
         """
         Solve the MAPF problem.
         """
+        start = timeit.default_timer()
         kwargs: dict = {"on_statistics": self._on_statistics}
         if self._costs:
             kwargs["on_model"] = self._on_model # add cost symbol
         result  = ctl.solve(**kwargs)
         
-        self._on_finish(result)
+        self._stats["Time"]["Solve Encoding"] = timeit.default_timer() - start
+        return result
 
     def _on_finish(self, result) -> None:
         """
         Handle the completion of the solving process, controlled by the _on_finish flag.
         """
+        
         if not self._finish:
             return  # If the flag is False, skip this method.
 
@@ -255,6 +258,12 @@ class PriorityMAPFApp(Application): #inherits from Application -> Clingo's base 
             print("The problem is unsatisfiable.")
         else:
             print("The solving process returned an unknown result.")
+        
+        # Print out the time statistics here
+        print("Statistics:")
+        for category, times in self._stats["Time"].items():
+            print(f"{category}: {times:.7f}")
+
 
     def main(self, ctl: Control, files) -> None:
         """
@@ -263,7 +272,8 @@ class PriorityMAPFApp(Application): #inherits from Application -> Clingo's base 
         problem = self._load(ctl, files)
         parts = self._prepare(ctl, problem)
         self._ground(ctl, parts)
-        self._solve(ctl)
+        result = self._solve(ctl)
+        self._on_finish(result)
 
 if __name__ == "__main__":
     clingo_main(PriorityMAPFApp(), sys.argv[1:])

@@ -8,7 +8,7 @@ horizon(horizon).
 
 #program sum_of_costs(d).
 
-horizon(A,N+d) :- sp_length(A,N).
+horizon(A,N+d) :- sp_length(A,N). %max per agent
 horizon(M) :- M = #max { N: horizon(A,N) }.
 delta(D) :- d = D.
 
@@ -58,10 +58,10 @@ bound(H+D) :- H = #sum{T,A : sp_length(A,T)}, delta(D).
 
 
 
-%#heuristic move(A,U,V,T) : at(A,U,T-1), time(T), priority(A,PA), priority(B,PB), move(B,_,V,T), A != B, PA > PB. [PA,level]
-#heuristic move(A,_,V,T) : priority(A,PA), priority(B,PB), move(B,_,V,T),sp_length(A,TA),sp_length(B,TB), A != B, PA +TA > PB+TB. [PA+TA,level]
-%#heuristic move(A,_,V,T) : priority(A,PA), priority(B,PB), move(B,_,V,T), A != B, PA  > PB. [PA,level]
+%#heuristic move(A,_,V,T) : priority(A,PA), priority(B,PB), move(B,_,V,T), A != B, PA > PB. [PA,level]
+%#heuristic move(A,_,V,T) : priority(A,PA), priority(B,PB), move(B,_,V,T),sp_length(A,TA),sp_length(B,TB), A != B, PA +TA > PB+TB. [PA+TA,level]
 %#heuristic move(A,_,V,T) : priority(A,P) . [P,level]
+%#heuristic move(A,_,V,T) : sp_length(A,TA),sp_length(B,TB), move(B,_,V,T), A != B, TA > TB. [TA,level]
 % Display
 
 #show penalty_summary/3.
@@ -74,35 +74,35 @@ bound(H+D) :- H = #sum{T,A : sp_length(A,T)}, delta(D).
 #defined penalty_summary/3.
 #defined reach/3.
 
-priority(4,99).
-priority(14,99).
-priority(18,99).
-priority(19,99).
-priority(21,99).
+priority(10,99).
+priority(15,99).
+priority(20,99).
 priority(24,99).
-priority(25,99).
-priority(26,99).
 priority(27,99).
-priority(7,98).
-priority(11,98).
-priority(16,98).
-priority(9,97).
-priority(10,97).
-priority(20,97).
-priority(1,96).
+priority(31,99).
+priority(6,98).
+priority(19,98).
+priority(25,98).
+priority(12,97).
+priority(14,97).
+priority(17,97).
+priority(26,97).
+priority(29,97).
+priority(30,97).
+priority(11,96).
+priority(16,96).
+priority(21,96).
 priority(2,95).
-priority(8,95).
-priority(12,95).
-priority(17,95).
-priority(29,94).
-priority(31,94).
-priority(3,93).
-priority(32,93).
+priority(3,95).
+priority(4,95).
+priority(32,95).
+priority(7,94).
+priority(5,93).
+priority(9,93).
 priority(22,92).
-priority(5,91).
-priority(15,91).
-priority(28,90).
-priority(13,89).
-priority(6,88).
-priority(30,87).
-priority(23,86).
+priority(1,91).
+priority(13,90).
+priority(18,90).
+priority(8,89).
+priority(23,89).
+priority(28,88).

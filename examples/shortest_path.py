@@ -151,7 +151,7 @@ def visualize_graph(G, agents):
     plt.title("Graph Visualization with Agent Start and Goal Positions")
     plt.show()
 
-input_data = read_from_file("instances\Processed\empty-8-8-random-5.lp")
+input_data = read_from_file("instances\Processed\empty-8-8-random\empty-8-8-random-1\empty-8-8-random-1_32.lp")
 
 vertices, edges, agents = parse_input(input_data)
 G = build_graph(vertices, edges, agents)
