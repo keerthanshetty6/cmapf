@@ -1,21 +1,16 @@
-# CMAPF: MAPF utilities for clingo implemented in C++
-
-Currently, this project computes reachable positions for the SoC optimization
-given a MAPF problem.
-
-See the examples folder for a simple application using the utilities.
+# Heuristics based priority for MAPF
 
 ## Installation
 
-### For pypi packages
-
-To use our official pypi packages, install with:
+### To use the pypi packages 
 
 ```
-python -m venv venv
-source venv/bin/activate
+python -m venv camp
+camp\Scripts\activate
 pip install .
 ```
+
+# camp is the virtual environment name
 
 Make sure that a recent enough C++ compiler is available on the system.
 

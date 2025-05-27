@@ -1,4 +1,14 @@
+### Activate Virtual environment 
+```
+camp/scripts/activate
+```
 # Approximate a SoC solution
+1.Extract map to get scenario to ASP format with vertex, edges and agent start and end location - extract_map.py
+2.Calculate prioirty based on Heuristics from the map extracted in step 1 - Calculate_Priority.py
+3.priority.lp has ASP encoding to solve the scenario
+4.MAPF_with_priority.py used to solve the mapf problem with the creation of reach variables
+5.run_clingo.py finally runs all the instances
+
 
 The first example call computes reachable locations algorithmicly:
 ```
